@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>3D Disc Carousel</title>
+<style>
+  body {
+    margin: 0; background: #111; color: #fff;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; overflow: hidden;
+    user-select: none;
+  }
+  .carousel {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50% -300px;
+    perspective: 1000px;
+  }
+  .disc {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0af, #08c);
+    box-shadow: 0 0 10px #0af;
+    text-align: center;
+    line-height: 80px;
+    font-weight: bold;
+    font-family: sans-serif;
+    cursor: pointer;
+    color: white;
+    user-select: none;
+    transition: box-shadow 0.3s;
+  }
+  .disc:hover {
+    box-shadow: 0 0 25px #0ff;
+  }
+</style>
+</head>
+<body>
+<div class="carousel" id="carousel"></div>
+
+<script>
+  const carousel = document.getElementById('carousel');
+  const itemCount = 25;
+  let angle = 0;
+  let currentRotation = 0;
+  let startX, isDragging = false;
+  let lastX, velocity = 0, animationFrame;
+
+  // Create discs and position them in a circle
+  for (let i = 0; i < itemCount; i++) {
+    const disc = document.createElement('div');
+    disc.className = 'disc';
+    disc.textContent = i + 1;
+    // Calculate angle and set position
+    const discAngle = (360 / itemCount) * i;
+    disc.style.transform = `rotateY(${discAngle}deg) translateZ(300px)`;
+    disc.dataset.angle = discAngle;
+    disc.onclick = () => alert(`Clicked disc #${i + 1}`);
+    carousel.appendChild(disc);
+  }
+
+  // Rotate carousel to a given angle
+  function rotateCarousel(angle) {
+    carousel.style.transform = `translateZ(-300px) rotateY(${angle}deg)`;
+  }
+
+  rotateCarousel(currentRotation);
+
+  // Dragging functions
+  function onPointerDown(e) {
+    isDragging = true;
+    startX = e.clientX || e.touches[0].clientX;
+    lastX = startX;
+    cancelAnimationFrame(animationFrame);
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const x = e.clientX || e.touches[0].clientX;
+    const deltaX = x - lastX;
+    currentRotation += deltaX * 0.5;
+    rotateCarousel(currentRotation);
+    velocity = deltaX;
+    lastX = x;
+  }
+
+  function onPointerUp() {
+    isDragging = false;
+    momentum();
+  }
+
+  // Momentum animation after drag release
+  function momentum() {
+    velocity *= 0.95;
+    if (Math.abs(velocity) > 0.1) {
+      currentRotation += velocity * 2;
+      rotateCarousel(currentRotation);
+      animationFrame = requestAnimationFrame(momentum);
+    }
+  }
+
+  carousel.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointerleave', onPointerUp);
+</script>
+</body>
+</html>
