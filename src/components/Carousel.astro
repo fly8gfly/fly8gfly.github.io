@@ -1,6 +1,6 @@
 ---
 const discs = [
-  { image: '/discs/Home.jpg', title: 'Home', link: '/home' },
+  { image: '/discs/Home.jpg', title: 'Home', link: '/' },
   { image: '/discs/youtube.jpg', title: 'YouTube Channels', link: '/youtube-channels' },
   { image: '/discs/Products.jpg', title: 'Products', link: '/products' },
   { image: '/discs/flying-tips.jpg', title: 'Flying Tips', link: '/flying-tips' },
@@ -8,132 +8,90 @@ const discs = [
 ---
 
 <style>
-  main {
-    width: 100vw;
-    height: 100vh;
-    background: var(--background, #111);
+  .carousel-container {
+    perspective: 1000px;
+    width: 100%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    perspective: 2000px;
+    height: 70vh;
+    position: relative;
   }
 
   .carousel {
+    width: 300px;
+    height: 300px;
     position: relative;
-    width: 80vw;
-    height: 80vw;
     transform-style: preserve-3d;
-    transition: transform 1s ease;
-    cursor: grab;
-  }
-
-  .carousel:active {
-    cursor: grabbing;
+    animation: spin 20s linear infinite;
   }
 
   .disc {
+    width: 100px;
+    height: 100px;
     position: absolute;
-    width: 30vw;
-    height: 30vw;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0.5rem;
-    text-shadow: 0 0 5px black;
-    user-select: none;
-    text-align: center;
-    transform-origin: center center;
-    transition: transform 0.5s ease, translateZ 0.5s ease;
+    top: 100px;
+    left: 100px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s, z-index 0.5s;
+    cursor: pointer;
   }
 
-  .disc.focused {
-    transform: translateZ(120px) rotateY(0deg) scale(1.1);
+  .disc img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .disc.highlighted {
+    transform: translateZ(150px) rotateY(0deg);
     z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
   }
 </style>
 
-<div class="carousel">
-  {discs.map((disc) => (
-    <a
-      href={disc.link}
-      class="disc"
-      style={`background-image: url('${disc.image}')`}
-    >
-      <span>{disc.title}</span>
-    </a>
-  ))}
+<div class="carousel-container">
+  <div class="carousel" id="carousel">
+    {discs.map((disc, i) => (
+      <a
+        href={disc.link}
+        class="disc"
+        style={`transform: rotateY(${i * (360 / discs.length)}deg) translateZ(250px);`}
+      >
+        <img src={disc.image} alt={disc.title} />
+      </a>
+    ))}
+  </div>
 </div>
 
-<script is:inline>
-  const carousel = document.querySelector('.carousel');
-  const discsEls = [...document.querySelectorAll('.disc')];
-  let angle = 0;
-  let startX;
-  let currentX;
-  let isDragging = false;
-  const radius = 40;
+<script type="module">
+  const carousel = document.getElementById('carousel');
+  const discs = carousel.querySelectorAll('.disc');
+  let currentIndex = 0;
 
-  function rotateCarousel() {
-    carousel.style.transform = `rotateY(${angle}deg)`;
-    updateFocus();
-  }
-
-  function positionDiscs() {
-    const n = discsEls.length;
-    discsEls.forEach((disc, i) => {
-      const discAngle = (360 / n) * i;
-      disc.style.transform = `rotateY(${discAngle}deg) translateZ(${radius}vw)`;
+  function highlightDisc(index) {
+    discs.forEach((disc, i) => {
+      disc.classList.toggle('highlighted', i === index);
     });
   }
 
-  function updateFocus() {
-    let closestIndex = 0;
-    let minDiff = 9999;
-    const n = discsEls.length;
+  highlightDisc(currentIndex);
 
-    discsEls.forEach((disc, i) => {
-      const discAngle = ((360 / n) * i + angle) % 360;
-      const diff = Math.min(Math.abs(discAngle), 360 - Math.abs(discAngle));
-      if (diff < minDiff) {
-        minDiff = diff;
-        closestIndex = i;
-      }
-      disc.classList.remove('focused');
-    });
-
-    discsEls[closestIndex].classList.add('focused');
-  }
-
-  positionDiscs();
-  rotateCarousel();
-
-  carousel.addEventListener('pointerdown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-  });
-
-  carousel.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    currentX = e.clientX;
-    const deltaX = currentX - startX;
-    angle += deltaX * 0.5;
-    rotateCarousel();
-    startX = currentX;
-  });
-
-  carousel.addEventListener('pointerup', () => {
-    isDragging = false;
-  });
-
-  carousel.addEventListener('pointerleave', () => {
-    isDragging = false;
-  });
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % discs.length;
+    highlightDisc(currentIndex);
+  }, 5000);
 </script>
