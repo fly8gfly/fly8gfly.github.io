@@ -16,4 +16,8 @@ export default function Disc({ name, index }) {
         transform,
         backgroundImage: `url(/discs/${name}.jpg)`
       }}
-   
+    >
+      <span className={styles.label}>{name}</span>
+    </div>
+  );
+}
