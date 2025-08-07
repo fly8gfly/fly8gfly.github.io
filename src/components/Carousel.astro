@@ -4,139 +4,148 @@ import { onMount } from 'astro/client';
 
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Disc Carousel</title>
     <style>
-      body {
-        margin: 0;
-        background: #111;
+      .carousel-container {
+        width: 100%;
+        height: 100vh;
+        perspective: 1000px;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        overflow: hidden;
-      }
-
-      .carousel-container {
-        width: 100vw;
-        height: 100vw;
-        max-width: 600px;
-        max-height: 600px;
-        perspective: 1000px;
+        background: radial-gradient(#222, #000);
       }
 
       .carousel {
-        width: 100%;
-        height: 100%;
         position: relative;
+        width: 300px;
+        height: 300px;
         transform-style: preserve-3d;
-        transition: transform 1s;
-      }
-
-      .spoke {
-        position: absolute;
-        width: 4px;
-        height: 50%;
-        background: #ccc;
-        left: 50%;
-        bottom: 50%;
-        transform-origin: bottom;
+        transform: rotateY(0deg);
+        transition: transform 0.5s ease-out;
       }
 
       .rim {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 4px solid #888;
+        width: 300px;
+        height: 300px;
+        border: 3px solid #888;
         border-radius: 50%;
-        box-shadow: 0 0 15px #444;
+      }
+
+      .spoke {
+        position: absolute;
+        width: 150px;
+        height: 2px;
+        background: #666;
+        top: 50%;
+        left: 50%;
+        transform-origin: left center;
       }
 
       .disc {
         position: absolute;
-        width: 40%;
-        height: 40%;
-        transform-origin: center center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         transform-style: preserve-3d;
       }
 
-      .disc img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      /* Discs positioning */
+      .disc:nth-child(1) {
+        transform: translate(-40px, -40px) rotateY(0deg) translateZ(75px) translateY(-75px);
+        background-image: url('/discs/Home.jpg');
       }
 
-      .disc:nth-child(1) { transform: rotateY(0deg) translateZ(250px) rotateX(90deg); }
-      .disc:nth-child(2) { transform: rotateY(90deg) translateZ(250px) rotateX(90deg); }
-      .disc:nth-child(3) { transform: rotateY(180deg) translateZ(250px) rotateX(90deg); }
-      .disc:nth-child(4) { transform: rotateY(270deg) translateZ(250px) rotateX(90deg); }
+      .disc:nth-child(2) {
+        transform: translate(-40px, -40px) rotateY(90deg) translateZ(75px) translateY(-75px);
+        background-image: url('/discs/Products.jpg');
+      }
+
+      .disc:nth-child(3) {
+        transform: translate(-40px, -40px) rotateY(180deg) translateZ(75px) translateY(-75px);
+        background-image: url('/discs/flying-tips.jpg');
+      }
+
+      .disc:nth-child(4) {
+        transform: translate(-40px, -40px) rotateY(270deg) translateZ(75px) translateY(-75px);
+        background-image: url('/discs/youtube.jpg');
+      }
+
+      @media (max-width: 768px) {
+        .carousel {
+          width: 200px;
+          height: 200px;
+        }
+        .rim {
+          width: 200px;
+          height: 200px;
+        }
+        .spoke {
+          width: 100px;
+        }
+        .disc {
+          width: 60px;
+          height: 60px;
+        }
+      }
     </style>
   </head>
+
   <body>
     <div class="carousel-container">
       <div class="carousel" id="carousel">
         <div class="rim"></div>
+        <div class="spoke" style="transform: rotate(0deg);"></div>
+        <div class="spoke" style="transform: rotate(90deg);"></div>
+        <div class="spoke" style="transform: rotate(180deg);"></div>
+        <div class="spoke" style="transform: rotate(270deg);"></div>
 
-        <!-- Spokes -->
-        <div class="spoke" style="transform: rotate(0deg) translateY(-50%)"></div>
-        <div class="spoke" style="transform: rotate(90deg) translateY(-50%)"></div>
-        <div class="spoke" style="transform: rotate(180deg) translateY(-50%)"></div>
-        <div class="spoke" style="transform: rotate(270deg) translateY(-50%)"></div>
-
-        <!-- Discs -->
-        <div class="disc"><img src="/discs/Home.jpg" alt="Home" /></div>
-        <div class="disc"><img src="/discs/Products.jpg" alt="Products" /></div>
-        <div class="disc"><img src="/discs/flying-tips.jpg" alt="Flying Tips" /></div>
-        <div class="disc"><img src="/discs/youtube.jpg" alt="YouTube" /></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
       </div>
     </div>
 
     <script>
-      const carousel = document.getElementById('carousel');
-      let angleY = 0;
+      const carousel = document.getElementById("carousel");
+      let rotation = 0;
+      let startX = 0;
       let isDragging = false;
-      let lastX;
 
       function rotateCarousel(diff) {
-        angleY += diff * 0.3;
-        carousel.style.transform = `rotateY(${angleY}deg)`;
+        rotation += diff;
+        carousel.style.transform = `rotateY(${rotation}deg)`;
       }
 
-      document.addEventListener('mousedown', (e) => {
+      function startDrag(e) {
         isDragging = true;
-        lastX = e.clientX;
-      });
+        startX = e.touches ? e.touches[0].clientX : e.clientX;
+      }
 
-      document.addEventListener('mousemove', (e) => {
+      function onDrag(e) {
         if (!isDragging) return;
-        const deltaX = e.clientX - lastX;
-        lastX = e.clientX;
-        rotateCarousel(deltaX);
-      });
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        const diff = (x - startX) * 0.5;
+        startX = x;
+        rotateCarousel(diff);
+      }
 
-      document.addEventListener('mouseup', () => {
+      function endDrag() {
         isDragging = false;
-      });
+      }
 
-      // Touch support
-      document.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-      });
-
-      document.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const deltaX = e.touches[0].clientX - lastX;
-        lastX = e.touches[0].clientX;
-        rotateCarousel(deltaX);
-      });
-
-      document.addEventListener('touchend', () => {
-        isDragging = false;
-      });
+      carousel.addEventListener("mousedown", startDrag);
+      carousel.addEventListener("mousemove", onDrag);
+      carousel.addEventListener("mouseup", endDrag);
+      carousel.addEventListener("mouseleave", endDrag);
+      carousel.addEventListener("touchstart", startDrag);
+      carousel.addEventListener("touchmove", onDrag);
+      carousel.addEventListener("touchend", endDrag);
     </script>
   </body>
 </html>
