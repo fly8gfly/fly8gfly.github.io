@@ -1,24 +1,8 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Carousel from '../components/Carousel.astro';
-
-const discs = [
-  { title: 'Home', image: '/discs/home.jpg', link: '/' },
-  { title: 'Products', image: '/discs/products.jpg', link: '/products' },
-  { title: 'YouTube Channels', image: '/discs/youtube.jpg', link: '/youtube-channels' },
-  { title: 'Flying Tips', image: '/discs/flying-tips.jpg', link: '/flying-tips' },
-];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fly8G – General Aviation</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <main>
-      <Carousel {discs} />
-    </main>
-  </body>
-</html>
+<BaseLayout title="Fly8G Carousel">
+  <Carousel />
+</BaseLayout>
