@@ -1,12 +1,13 @@
 {
-  "name": "fly8g-astro-site",
+  "name": "fly8g",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^3.0.0"
+    "astro": "^4.0.0"
   }
 }
