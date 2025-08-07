@@ -1,0 +1,24 @@
+/* src/components/Disc.module.css */
+
+.disc {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: 125px; /* vertically center */
+  left: calc(50% - 75px);
+  background-size: cover;
+  background-position: center;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  font-size: 1rem;
+  color: white;
+  text-shadow: 1px 1px 4px black;
+}
+
+.label {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  text-align: center;
+}
