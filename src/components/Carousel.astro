@@ -1,147 +1,67 @@
 ---
-const discs = [
-  { name: 'Home.jpg' },
-  { name: 'Products.jpg' },
-  { name: 'flying-tips.jpg' },
-  { name: 'youtube.jpg' },
-];
+import { onMount } from 'astro/jsx-runtime';
+import Disc from './Disc.jsx';
+const discNames = ['Home', 'Products', 'youtube', 'flying-tips'];
 ---
+
+<div class="carousel-wrapper">
+  <div class="carousel" id="carousel">
+    {discNames.map((name, index) => (
+      <Disc name={name} index={index} />
+    ))}
+  </div>
+</div>
+
 <style>
-  .scene {
+  .carousel-wrapper {
     perspective: 1000px;
     width: 100%;
     height: 400px;
     overflow: hidden;
-    touch-action: pan-y;
   }
 
   .carousel {
-    width: 300px;
-    height: 300px;
     position: relative;
-    margin: auto;
     transform-style: preserve-3d;
-    transform: rotateY(0deg);
+    width: 100%;
+    height: 100%;
     transition: transform 0.5s ease-out;
-  }
-
-  .rim {
-    width: 300px;
-    height: 300px;
-    border: 4px solid #444;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  }
-
-  .spoke {
-    width: 2px;
-    height: 150px;
-    background: #666;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: bottom center;
-  }
-
-  .disc {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-  }
-
-  .disc img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid white;
-    background: white;
   }
 </style>
 
-<div class="scene" id="carousel-container">
-  <div class="carousel" id="carousel">
-    <div class="rim"></div>
-
-    <!-- Spokes -->
-    {Array.from({ length: 4 }).map((_, i) => (
-      <div
-        class="spoke"
-        style={`transform: rotate(${i * 90}deg) translateY(-150px);`}
-      />
-    ))}
-
-    <!-- Discs -->
-    {discs.map((disc, i) => {
-      const angle = (i * 360) / discs.length;
-      const radius = 150; // half the carousel size
-
-      return (
-        <div
-          class="disc"
-          style={`
-            transform:
-              rotateY(${angle}deg)
-              translateZ(${radius}px)
-              translateY(-${radius}px)
-              rotateX(90deg);
-          `}
-        >
-          <img src={`/discs/${disc.name}`} alt={disc.name} />
-        </div>
-      );
-    })}
-  </div>
-</div>
-
 <script type="module">
+  let angle = 0;
   const carousel = document.getElementById('carousel');
-  let currentRotation = 0;
-  let startX = 0;
+
+  const rotateCarousel = (delta) => {
+    angle += delta;
+    carousel.style.transform = `rotateY(${angle}deg)`;
+  };
+
+  let startX = null;
   let dragging = false;
 
-  const rotate = (deltaX) => {
-    currentRotation += deltaX * 0.3;
-    carousel.style.transform = `rotateY(${currentRotation}deg)`;
-  };
-
-  const onMouseDown = (e) => {
+  const start = (e) => {
     dragging = true;
-    startX = e.clientX;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
   };
 
-  const onMouseMove = (e) => {
+  const move = (e) => {
     if (!dragging) return;
-    const deltaX = e.clientX - startX;
-    rotate(deltaX);
-    startX = e.clientX;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const delta = x - startX;
+    rotateCarousel(delta * -0.3);
+    startX = x;
   };
 
-  const onMouseUp = () => {
-    dragging = false;
-  };
+  const end = () => dragging = false;
 
-  const onTouchStart = (e) => {
-    startX = e.touches[0].clientX;
-  };
-
-  const onTouchMove = (e) => {
-    const deltaX = e.touches[0].clientX - startX;
-    rotate(deltaX);
-    startX = e.touches[0].clientX;
-  };
-
-  document.addEventListener('mousedown', onMouseDown);
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-  document.addEventListener('touchstart', onTouchStart);
-  document.addEventListener('touchmove', onTouchMove);
+  onMount(() => {
+    carousel.addEventListener('mousedown', start);
+    carousel.addEventListener('mousemove', move);
+    carousel.addEventListener('mouseup', end);
+    carousel.addEventListener('touchstart', start);
+    carousel.addEventListener('touchmove', move);
+    carousel.addEventListener('touchend', end);
+  });
 </script>
