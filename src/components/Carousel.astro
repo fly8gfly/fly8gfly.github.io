@@ -9,18 +9,16 @@ const discs = [
 
 <style>
   .carousel-container {
-    perspective: 1000px;
+    perspective: 1200px;
     width: 100%;
-    overflow: hidden;
+    height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
-    position: relative;
   }
 
   .carousel {
-    width: 300px;
+    width: 400px;
     height: 300px;
     position: relative;
     transform-style: preserve-3d;
@@ -29,13 +27,12 @@ const discs = [
 
   .disc {
     width: 100px;
-    height: 100px;
+    height: 150px;
     position: absolute;
-    top: 100px;
-    left: 100px;
+    top: 75px;
+    left: 150px;
     transform-style: preserve-3d;
-    transition: transform 0.5s, z-index 0.5s;
-    cursor: pointer;
+    transition: transform 0.5s ease, z-index 0.5s ease;
   }
 
   .disc img {
@@ -44,13 +41,12 @@ const discs = [
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 
   .disc.highlighted {
-    transform: translateZ(150px) rotateY(0deg);
+    transform: translateZ(150px) rotateY(0deg) !important;
     z-index: 10;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   }
 
   @keyframes spin {
@@ -69,7 +65,7 @@ const discs = [
       <a
         href={disc.link}
         class="disc"
-        style={`transform: rotateY(${i * (360 / discs.length)}deg) translateZ(250px);`}
+        style={`transform: rotateY(${i * (360 / discs.length)}deg) translateZ(250px) rotateY(-${i * (360 / discs.length)}deg);`}
       >
         <img src={disc.image} alt={disc.title} />
       </a>
