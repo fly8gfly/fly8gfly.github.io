@@ -1,9 +1,9 @@
 ---
 const discs = [
-  { image: '/images/Home.jpg', title: 'Home', link: '/home' },
-  { image: '/images/youtube.jpg', title: 'YouTube Channels', link: '/youtube-channels' },
-  { image: '/images/Products.jpg', title: 'Products', link: '/products' },
-  { image: '/images/flying-tips.jpg', title: 'Flying Tips', link: '/flying-tips' },
+  { image: '/discs/Home.jpg', title: 'Home', link: '/home' },
+  { image: '/discs/youtube.jpg', title: 'YouTube Channels', link: '/youtube-channels' },
+  { image: '/discs/Products.jpg', title: 'Products', link: '/products' },
+  { image: '/discs/flying-tips.jpg', title: 'Flying Tips', link: '/flying-tips' },
 ];
 ---
 
@@ -22,7 +22,7 @@ const discs = [
   .carousel {
     position: relative;
     width: 80vw;
-    height: 80vw; /* square for discs */
+    height: 80vw;
     transform-style: preserve-3d;
     transition: transform 1s ease;
     cursor: grab;
@@ -79,7 +79,7 @@ const discs = [
   let startX;
   let currentX;
   let isDragging = false;
-  const radius = 40; // vw units, horizontal ring
+  const radius = 40;
 
   function rotateCarousel() {
     carousel.style.transform = `rotateY(${angle}deg)`;
