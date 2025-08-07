@@ -1,0 +1,61 @@
+---
+const { title = "Fly8G" } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #000;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background: #111;
+        padding: 1rem 0;
+        text-align: center;
+        border-bottom: 1px solid #333;
+      }
+
+      header img {
+        height: 50px;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      footer {
+        background: #111;
+        padding: 0.75rem;
+        text-align: center;
+        font-size: 0.9rem;
+        border-top: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="/your-logo.png" alt="Fly8G Logo" />
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      Contact: info@fly8g.com
+    </footer>
+  </body>
+</html>
