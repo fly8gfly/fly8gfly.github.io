@@ -17,6 +17,7 @@ const discs = [
     align-items: center;
     overflow: hidden;
     position: relative;
+    touch-action: pan-y;
   }
 
   .carousel {
@@ -72,7 +73,7 @@ const discs = [
   }
 </style>
 
-<div class="carousel-container">
+<div class="carousel-container" id="carousel-container">
   <div class="carousel" id="carousel">
     {discs.map((disc, index) => (
       <a
@@ -116,4 +117,26 @@ const discs = [
   }
 
   updateCarousel();
+
+  // Touch support
+  const container = document.getElementById('carousel-container');
+  let startX = 0;
+  let endX = 0;
+
+  container.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  container.addEventListener('touchend', (e) => {
+    endX = e.changedTouches[0].clientX;
+    const delta = endX - startX;
+
+    if (Math.abs(delta) > 30) {
+      if (delta > 0) {
+        rotateCarousel(-1); // swipe right → go left
+      } else {
+        rotateCarousel(1);  // swipe left → go right
+      }
+    }
+  });
 </script>
