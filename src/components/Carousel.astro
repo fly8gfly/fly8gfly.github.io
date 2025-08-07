@@ -1,25 +1,21 @@
----
-const { discs } = Astro.props;
----
-
 <style>
   main {
     width: 100vw;
     height: 100vh;
-    background: var(--background);
+    background: var(--background, #111);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    perspective: 1500px;
+    perspective: 2000px;
   }
 
   .carousel {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 80vw;
+    height: 80vw; /* square for discs */
     transform-style: preserve-3d;
-    transition: transform 1s;
+    transition: transform 1s ease;
     cursor: grab;
   }
 
@@ -29,12 +25,12 @@ const { discs } = Astro.props;
 
   .disc {
     position: absolute;
-    width: 120px;
-    height: 120px;
+    width: 30vw;
+    height: 30vw;
     border-radius: 50%;
     background-size: cover;
     background-position: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -45,8 +41,27 @@ const { discs } = Astro.props;
     text-shadow: 0 0 5px black;
     user-select: none;
     text-align: center;
+    transform-origin: center center;
+    transition: transform 0.5s ease, translateZ 0.5s ease;
+  }
+
+  .disc.focused {
+    transform: translateZ(120px) rotateY(0deg) scale(1.1);
+    z-index: 10;
   }
 </style>
+
+<div class="carousel">
+  {discs.map((disc) => (
+    <a
+      href={disc.link}
+      class="disc"
+      style={`background-image: url('${disc.image}')`}
+    >
+      <span>{disc.title}</span>
+    </a>
+  ))}
+</div>
 
 <script>
   const carousel = document.querySelector('.carousel');
@@ -55,28 +70,48 @@ const { discs } = Astro.props;
   let startX;
   let currentX;
   let isDragging = false;
+  const radius = 40; // vw units, horizontal ring
 
   function rotateCarousel() {
-    carousel.style.transform = `translateZ(-300px) rotateY(${angle}deg)`;
+    carousel.style.transform = `rotateY(${angle}deg)`;
+    updateFocus();
   }
 
   function positionDiscs() {
     const n = discsEls.length;
     discsEls.forEach((disc, i) => {
       const discAngle = (360 / n) * i;
-      disc.style.transform = `rotateY(${discAngle}deg) translateZ(300px)`;
+      disc.style.transform = `rotateY(${discAngle}deg) translateZ(${radius}vw)`;
     });
+  }
+
+  function updateFocus() {
+    let closestIndex = 0;
+    let minDiff = 9999;
+    const n = discsEls.length;
+
+    discsEls.forEach((disc, i) => {
+      const discAngle = ((360 / n) * i + angle) % 360;
+      const diff = Math.min(Math.abs(discAngle), 360 - Math.abs(discAngle));
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestIndex = i;
+      }
+      disc.classList.remove('focused');
+    });
+
+    discsEls[closestIndex].classList.add('focused');
   }
 
   positionDiscs();
   rotateCarousel();
 
-  carousel.addEventListener('pointerdown', e => {
+  carousel.addEventListener('pointerdown', (e) => {
     isDragging = true;
     startX = e.clientX;
   });
 
-  carousel.addEventListener('pointermove', e => {
+  carousel.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
     currentX = e.clientX;
     const deltaX = currentX - startX;
@@ -93,15 +128,3 @@ const { discs } = Astro.props;
     isDragging = false;
   });
 </script>
-
-<div class="carousel">
-  {discs.map(disc => (
-    <a
-      href={disc.link}
-      class="disc"
-      style={`background-image: url('${disc.image}')`}
-    >
-      <span>{disc.title}</span>
-    </a>
-  ))}
-</div>
