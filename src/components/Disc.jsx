@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Disc.module.css';
 
 export default function Disc({ name, index }) {
   const radius = 200;
@@ -10,13 +11,9 @@ export default function Disc({ name, index }) {
 
   return (
     <div
-      className="disc"
+      className={styles.disc}
       style={{
         transform,
         backgroundImage: `url(/discs/${name}.jpg)`
       }}
-    >
-      <span className="label">{name}</span>
-    </div>
-  );
-}
+   
