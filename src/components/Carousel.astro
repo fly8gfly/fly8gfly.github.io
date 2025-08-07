@@ -1,5 +1,4 @@
 ---
-import { onMount } from 'astro/jsx-runtime';
 import Disc from './Disc.jsx';
 const discNames = ['Home', 'Products', 'youtube', 'flying-tips'];
 ---
@@ -30,33 +29,33 @@ const discNames = ['Home', 'Products', 'youtube', 'flying-tips'];
 </style>
 
 <script type="module">
-  let angle = 0;
-  const carousel = document.getElementById('carousel');
+  window.addEventListener('DOMContentLoaded', () => {
+    let angle = 0;
+    const carousel = document.getElementById('carousel');
 
-  const rotateCarousel = (delta) => {
-    angle += delta;
-    carousel.style.transform = `rotateY(${angle}deg)`;
-  };
+    const rotateCarousel = (delta) => {
+      angle += delta;
+      carousel.style.transform = `rotateY(${angle}deg)`;
+    };
 
-  let startX = null;
-  let dragging = false;
+    let startX = null;
+    let dragging = false;
 
-  const start = (e) => {
-    dragging = true;
-    startX = e.touches ? e.touches[0].clientX : e.clientX;
-  };
+    const start = (e) => {
+      dragging = true;
+      startX = e.touches ? e.touches[0].clientX : e.clientX;
+    };
 
-  const move = (e) => {
-    if (!dragging) return;
-    const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const delta = x - startX;
-    rotateCarousel(delta * -0.3);
-    startX = x;
-  };
+    const move = (e) => {
+      if (!dragging) return;
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const delta = x - startX;
+      rotateCarousel(delta * -0.3);
+      startX = x;
+    };
 
-  const end = () => dragging = false;
+    const end = () => (dragging = false);
 
-  onMount(() => {
     carousel.addEventListener('mousedown', start);
     carousel.addEventListener('mousemove', move);
     carousel.addEventListener('mouseup', end);
