@@ -1,86 +1,97 @@
 ---
-import { onMount } from "solid-js";
+import { onMount } from 'solid-js';
+
+// Dynamically load plane images from /public/planes
+const planes = [
+  { name: "Plane 1", src: "/planes/plane1.png" },
+  { name: "Plane 2", src: "/planes/plane2.png" },
+  { name: "Plane 3", src: "/planes/plane3.png" },
+  { name: "Plane 4", src: "/planes/plane4.png" }
+];
 ---
 
 <style>
-  .carousel-container {
-    perspective: 1000px;
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+.carousel {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  user-select: none;
+}
 
-  .carousel {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-  }
+.carousel-track {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
 
-  .cube {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(45deg, #ff7e5f, #feb47b);
-    transform-style: preserve-3d;
-  }
+.carousel-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
 
-  /* Position cubes 90° apart on a horizontal carousel */
-  .cube:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
-  .cube:nth-child(2) { transform: rotateY(90deg) translateZ(150px); }
-  .cube:nth-child(3) { transform: rotateY(180deg) translateZ(150px); }
-  .cube:nth-child(4) { transform: rotateY(270deg) translateZ(150px); }
+.carousel-item img {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
 </style>
 
-<div class="carousel-container">
-  <div class="carousel" id="carousel">
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
+<div class="carousel" id="carousel">
+  <div class="carousel-track" id="carouselTrack">
+    {planes.map((plane, index) => (
+      <div class="carousel-item"
+        style={`transform: rotateY(${index * 90}deg) translateZ(200px)`}>
+        <img src={plane.src} alt={plane.name} />
+      </div>
+    ))}
   </div>
 </div>
 
 <script>
-  let startX = 0;
-  let currentRotation = 0;
-  let carousel;
+  let startX, currentRotation = 0;
 
-  document.addEventListener("DOMContentLoaded", () => {
-    carousel = document.getElementById("carousel");
+  const carouselTrack = document.getElementById("carouselTrack");
 
-    const rotateCarousel = (deltaX) => {
-      currentRotation += deltaX / 2; // drag sensitivity
-      carousel.style.transform = `rotateY(${currentRotation}deg)`;
+  function rotateCarousel(deltaX) {
+    const rotationChange = deltaX / 2;
+    currentRotation += rotationChange;
+    carouselTrack.style.transform = `rotateY(${currentRotation}deg)`;
+  }
+
+  document.getElementById("carousel").addEventListener("mousedown", e => {
+    startX = e.clientX;
+    const onMouseMove = eMove => {
+      rotateCarousel(eMove.clientX - startX);
+      startX = eMove.clientX;
     };
+    const onMouseUp = () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  });
 
-    // Mouse controls
-    carousel.addEventListener("mousedown", (e) => {
-      startX = e.clientX;
-      const onMouseMove = (moveEvent) => {
-        rotateCarousel(moveEvent.clientX - startX);
-        startX = moveEvent.clientX;
-      };
-      const onMouseUp = () => {
-        document.removeEventListener("mousemove", onMouseMove);
-        document.removeEventListener("mouseup", onMouseUp);
-      };
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUp);
-    });
-
-    // Touch controls
-    carousel.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX;
-    });
-
-    carousel.addEventListener("touchmove", (e) => {
-      rotateCarousel(e.touches[0].clientX - startX);
-      startX = e.touches[0].clientX;
-    });
+  document.getElementById("carousel").addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    const onTouchMove = eMove => {
+      rotateCarousel(eMove.touches[0].clientX - startX);
+      startX = eMove.touches[0].clientX;
+    };
+    const onTouchEnd = () => {
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+    window.addEventListener("touchmove", onTouchMove);
+    window.addEventListener("touchend", onTouchEnd);
   });
 </script>
