@@ -1,0 +1,73 @@
+---
+import { onMount } from 'astro/jsx-runtime';
+import * as THREE from 'three';
+
+onMount(() => {
+  // Scene setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  const container = document.getElementById('airplane-carousel');
+  container.appendChild(renderer.domElement);
+
+  renderer.setSize(window.innerWidth, 400);
+  camera.position.z = 10;
+
+  // Light
+  const light = new THREE.AmbientLight(0xffffff, 1);
+  scene.add(light);
+
+  // Helper to create a flat airplane sprite
+  const loader = new THREE.TextureLoader();
+  function createPlane(texturePath) {
+    const texture = loader.load(texturePath);
+    const material = new THREE.SpriteMaterial({ map: texture });
+    const sprite = new THREE.Sprite(material);
+    sprite.scale.set(2, 1, 1); // Size of plane
+    scene.add(sprite);
+    return sprite;
+  }
+
+  // Create 4 airplanes
+  const plane1 = createPlane('/planes/plane1.png');
+  const plane2 = createPlane('/planes/plane2.png');
+  const plane3 = createPlane('/planes/plane3.png');
+  const plane4 = createPlane('/planes/plane4.png');
+
+  // Orbit path function
+  function orbitPlane(plane, radius, speed, offset = 0) {
+    return (t) => {
+      const angle = speed * t + offset;
+      plane.position.x = Math.cos(angle) * radius;
+      plane.position.y = Math.sin(angle) * radius;
+    };
+  }
+
+  const clock = new THREE.Clock();
+  const plane1Path = orbitPlane(plane1, 5, 0.5);
+  const plane2Path = orbitPlane(plane2, 5, -0.4, Math.PI / 2);
+  const plane3Path = orbitPlane(plane3, 5, 0.6, Math.PI);
+  const plane4Path = orbitPlane(plane4, 5, -0.3, (3 * Math.PI) / 2);
+
+  // Animate loop
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+    plane1Path(t);
+    plane2Path(t);
+    plane3Path(t);
+    plane4Path(t);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / 400;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, 400);
+  });
+});
+---
+
+<div id="airplane-carousel" class="w-full h-[400px] bg-sky-200"></div>
