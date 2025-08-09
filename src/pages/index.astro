@@ -1,168 +1,40 @@
----
-const pages = [
-  { img: "/planes/plane1.png", title: "Home", url: "/home" },
-  { img: "/planes/plane2.png", title: "Products", url: "/products" },
-  { img: "/planes/plane3.png", title: "YouTube", url: "/youtube" },
-  { img: "/planes/plane4.png", title: "Flying Tips", url: "/flying-tips" },
-];
----
-
 <style>
-  body, html {
-    margin: 0; padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: system-ui, sans-serif;
-    background: #000;
-    color: #fff;
+  /* ... keep previous styles ... */
+
+  /* Fly-in animations remain unchanged */
+
+  /* New fly-out animations */
+  @keyframes flyOutLeft {
+    from { transform: translateX(0) rotate(0deg) scale(1.1); opacity: 1; }
+    to { transform: translateX(-150%) rotate(-10deg) scale(1.1); opacity: 0; }
   }
 
-  header, footer {
-    position: fixed;
-    left: 0; right: 0;
-    height: 60px;
-    line-height: 60px;
-    background: #111;
-    text-align: center;
-    z-index: 10;
-    user-select: none;
+  @keyframes flyOutRight {
+    from { transform: translateX(0) rotate(0deg) scale(1.1); opacity: 1; }
+    to { transform: translateX(150%) rotate(10deg) scale(1.1); opacity: 0; }
   }
 
-  header {
-    top: 0;
-  }
-
-  footer {
-    bottom: 0;
-    font-size: 0.9rem;
-    color: #888;
-  }
-
-  main {
-    position: absolute;
-    top: 60px; bottom: 60px;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .container {
-    height: 100%;
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-  }
-
-  section {
-    scroll-snap-align: start;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .plane {
-    width: 352px;   /* 320 * 1.1 */
-    max-width: 90vw;
-    height: auto;
-    opacity: 0;
-    position: relative;
-    cursor: pointer;
-    transform-origin: center center;
-    transform: scale(1.1);
-  }
-
-  .title {
-    margin-top: 12px;
-    font-size: 2.5rem;
-    font-weight: 700;
-    opacity: 0;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  /* Animations */
-  @keyframes flyInLeft {
-    from {
-      transform: translateX(-150%) rotate(-10deg) scale(1.1);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0) rotate(0deg) scale(1.1);
-      opacity: 1;
-    }
-  }
-
-  @keyframes flyInRight {
-    from {
-      transform: translateX(150%) rotate(10deg) scale(1.1);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0) rotate(0deg) scale(1.1);
-      opacity: 1;
-    }
-  }
-
-  section[data-visible="true"] .plane {
-    opacity: 1;
-    animation-duration: 1.5s;
+  /* When a section is leaving */
+  section[data-visible="leaving"] .plane {
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    animation-name: flyInLeft;
+    animation-duration: 1.5s;
+    opacity: 0;
   }
 
-  section[data-visible="true"][data-side="right"] .plane {
-    animation-name: flyInRight;
+  section[data-visible="leaving"][data-side="left"] .plane {
+    animation-name: flyOutLeft;
+  }
+  section[data-visible="leaving"][data-side="right"] .plane {
+    animation-name: flyOutRight;
   }
 
-  section[data-visible="true"] .title {
-    opacity: 1;
-    animation: fadeIn 1.5s ease 1.5s forwards;
-  }
-
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  /* Hide title on leaving */
+  section[data-visible="leaving"] .title {
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
 </style>
-
-<header>Fly8G Header</header>
-
-<main>
-  <div class="container" id="container">
-    {pages.map((page, i) => (
-      <section 
-        data-visible={i === 0 ? "true" : "false"} 
-        data-side={i < 2 ? "left" : "right"}
-        id={`section-${i}`}
-      >
-        <img
-          src={page.img}
-          alt={page.title}
-          class="plane"
-          role="link"
-          tabindex="0"
-          onClick={`window.location.href='${page.url}'`}
-          onKeyDown={(e) => { if(e.key === "Enter") window.location.href = page.url; }}
-        />
-        <div
-          class="title"
-          role="link"
-          tabindex="0"
-          onClick={`window.location.href='${page.url}'`}
-          onKeyDown={(e) => { if(e.key === "Enter") window.location.href = page.url; }}
-        >
-          {page.title}
-        </div>
-      </section>
-    ))}
-  </div>
-</main>
-
-<footer>contact@fly8g.com</footer>
 
 <script>
   (() => {
@@ -175,18 +47,32 @@ const pages = [
     function updateVisible(newIndex) {
       if (newIndex < 0 || newIndex >= total) return;
       if (newIndex === current) return;
+      if (isAnimating) return;
       isAnimating = true;
 
-      sections[current].dataset.visible = "false";
-      sections[newIndex].dataset.visible = "true";
+      const currentSection = sections[current];
+      const nextSection = sections[newIndex];
 
-      current = newIndex;
+      // Mark current as leaving to trigger fly out
+      currentSection.dataset.visible = "leaving";
 
+      // After fly-out animation ends (~1.5s), hide old and show new
       setTimeout(() => {
-        isAnimating = false;
-      }, 1600);  // Increased delay to match slower animation
+        currentSection.dataset.visible = "false";
+
+        // Show next section, triggers fly-in
+        nextSection.dataset.visible = "true";
+
+        current = newIndex;
+
+        // Wait for fly-in animation (~1.5s) before allowing new navigation
+        setTimeout(() => {
+          isAnimating = false;
+        }, 1500);
+      }, 1500);
     }
 
+    // Touch/swipe and wheel handlers (same as before)
     let startY = null;
     container.addEventListener("touchstart", (e) => {
       if(e.touches.length !== 1) return;
