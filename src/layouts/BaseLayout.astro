@@ -1,61 +1,105 @@
 ---
+// Props: title string for page title
 const { title = "Fly8G" } = Astro.props;
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/youtube", label: "YouTube" },
+  { href: "/flying-tips", label: "Flying Tips" },
+];
 ---
 
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: system-ui, sans-serif;
-        background: #000;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-      header {
-        background: #111;
-        padding: 1rem 0;
-        text-align: center;
-        border-bottom: 1px solid #333;
-      }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #001F3F 0%, #0074D9 100%);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-      header img {
-        height: 50px;
-      }
-main main {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-      footer {
-        background: #111;
-        padding: 0.75rem;
-        text-align: center;
-        font-size: 0.9rem;
-        border-top: 1px solid #333;
+    header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+
+    nav a {
+      color: #f0f0f0;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: #FFDC00;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.7);
+      text-align: center;
+      padding: 1rem 2rem;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
       }
-    </style>
-  </head>
-  <body>
-    <header>
-      <img src="/logo.jpg" alt="Fly8G Logo" />
-    </header>
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fly8G</h1>
+    <nav>
+      {navLinks.map(({ href, label }) => (
+        <a href={href} tabindex="0">{label}</a>
+      ))}
+    </nav>
+  </header>
 
-    <main>
-      <slot />
-    </main>
+  <main>
+    <slot />
+  </main>
 
-    <footer>
-      contact@fly8g.com
-    </footer>
-  </body>
+  <footer>
+    &copy; {new Date().getFullYear()} Fly8G &mdash; contact@fly8g.com
+  </footer>
+</body>
 </html>
