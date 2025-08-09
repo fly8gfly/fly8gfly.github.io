@@ -1,13 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const youtubeChannels = [
+  {
+    name: "MzeroA Flight Training",
+    url: "https://www.youtube.com/user/MzeroAFlightTraining",
+    description: "Practical flight training tutorials for student and private pilots."
+  },
+  {
+    name: "FlightChops",
+    url: "https://www.youtube.com/user/FlightChops",
+    description: "Real-world flying adventures and aviation education."
+  },
+  {
+    name: "Captain Joe",
+    url: "https://www.youtube.com/c/CaptainJoe",
+    description: "Clear explanations of aviation concepts for all levels."
+  },
+  {
+    name: "Mentour Pilot",
+    url: "https://www.youtube.com/c/MentourPilot",
+    description: "Professional airline pilot insights and tutorials."
+  },
+  {
+    name: "P&P Aviation",
+    url: "https://www.youtube.com/c/PPAviation",
+    description: "Flight training and safety tips with a focus on professionalism."
+  },
+];
 ---
 
-<BaseLayout title="Fly8G - YouTube">
-  <h2>YouTube Channel</h2>
-  <p>Explore our video content covering flight tutorials, adventures, and aviation tips.</p>
-  <p>
-    <a href="https://www.youtube.com/channel/YourChannelID" target="_blank" rel="noopener noreferrer" style="color:#FFDC00;">
-      Visit our YouTube Channel
-    </a>
+<BaseLayout title="Fly8G - Recommended YouTube Channels">
+  <h2 style="margin-bottom:1rem;">Recommended YouTube Channels for Pilots</h2>
+  <p style="max-width:700px; line-height:1.5; margin-bottom:2rem;">
+    Below is a curated list of YouTube channels offering valuable content to pilots and aviation enthusiasts. These channels cover everything from flight training tips to real-world flying experiences.
   </p>
+
+  <ul style="list-style:none; padding:0; max-width:700px;">
+    {youtubeChannels.map(channel => (
+      <li style="margin-bottom:1.75rem; background:rgba(255 255 255 / 0.1); padding:1rem 1.5rem; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+        <a href={channel.url} target="_blank" rel="noopener noreferrer" style="font-weight:700; font-size:1.25rem; color:#FFDC00; text-decoration:none;">
+          {channel.name}
+        </a>
+        <p style="margin-top:0.5rem; color:#ddd; font-size:1rem;">
+          {channel.description}
+        </p>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
