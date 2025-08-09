@@ -1,39 +1,120 @@
 ---
-import { useState } from "react";
-import Disc from "./Disc.jsx";
+import { onMount } from 'astro/jsx-runtime';
 
-// Discs in public/discs
-const discs = [
-  { src: "/discs/Home.jpg", title: "Home" },
-  { src: "/discs/Products.jpg", title: "Products" },
-  { src: "/discs/flying-tips.jpg", title: "Flying Tips" },
-  { src: "/discs/youtube.jpg", title: "YouTube" }
+let planes = [
+  '/planes/plane1.jpg',
+  '/planes/plane2.jpg',
+  '/planes/plane3.jpg',
+  '/planes/plane4.jpg'
 ];
 ---
 
-<div class="relative w-[300px] h-[300px] mx-auto overflow-hidden">
-  <div
-    class="relative w-full h-full"
-    style="transform-style: preserve-3d; transition: transform 1s ease;"
-    client:load
-  >
-    {
-      discs.map((disc, i) => {
-        const angle = (i / discs.length) * 360;
-        const radius = 120; // fake depth
-        const x = Math.sin((angle * Math.PI) / 180) * radius;
-        const z = Math.cos((angle * Math.PI) / 180) * radius;
-
-        return (
-          <Disc
-            src={disc.src}
-            title={disc.title}
-            style={{
-              transform: `translateX(${x}px) translateZ(${z}px)`,
-            }}
-          />
-        );
-      })
-    }
+<div class="carousel-container">
+  <div class="carousel" id="carousel">
+    {planes.map((plane, index) => (
+      <div class="carousel-item" style={`--i:${index}`}>
+        <img src={plane} alt={`Plane ${index + 1}`} />
+      </div>
+    ))}
   </div>
 </div>
+
+<style>
+.carousel-container {
+  width: 100%;
+  height: 400px;
+  perspective: 1000px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(300px);
+  transition: transform 0.5s ease, scale 0.5s ease;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.carousel-item.active {
+  transform: translateZ(350px) scale(1.1) rotateY(calc(var(--i) * 90deg));
+}
+
+</style>
+
+<script>
+let current = 0;
+let startX = 0;
+let currentRotation = 0;
+let carousel;
+
+onMount(() => {
+  carousel = document.getElementById('carousel');
+  updateActive();
+
+  carousel.addEventListener('mousedown', startDrag);
+  window.addEventListener('mouseup', endDrag);
+  window.addEventListener('mousemove', drag);
+
+  carousel.addEventListener('touchstart', startDrag, { passive: true });
+  window.addEventListener('touchend', endDrag, { passive: true });
+  window.addEventListener('touchmove', drag, { passive: true });
+});
+
+function startDrag(e) {
+  startX = e.touches ? e.touches[0].clientX : e.clientX;
+}
+
+function drag(e) {
+  if (startX === null) return;
+  let x = e.touches ? e.touches[0].clientX : e.clientX;
+  let delta = x - startX;
+  if (Math.abs(delta) > 50) {
+    if (delta > 0) current--;
+    else current++;
+    rotateCarousel();
+    startX = x;
+  }
+}
+
+function endDrag() {
+  startX = null;
+}
+
+function rotateCarousel() {
+  currentRotation = current * -90;
+  carousel.style.transform = `translateZ(-300px) rotateY(${currentRotation}deg)`;
+  updateActive();
+}
+
+function updateActive() {
+  let items = carousel.querySelectorAll('.carousel-item');
+  items.forEach((item, idx) => {
+    item.classList.remove('active');
+    if ((idx % 4 + 4) % 4 === ((-current) % 4 + 4) % 4) {
+      item.classList.add('active');
+    }
+  });
+}
+</script>
