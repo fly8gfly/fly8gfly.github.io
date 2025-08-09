@@ -1,182 +1,34 @@
 ---
-const navLinks = [
-  { href: "/home", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/youtube", label: "YouTube" },
-  { href: "/flying-tips", label: "Flying Tips" },
-];
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<style>
-  /* Reset */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #001F3F 0%, #0074D9 100%);
-    color: #f0f0f0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  header {
-    background: rgba(0,0,0,0.7);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  header h1 {
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-  }
-
-  nav a {
-    color: #f0f0f0;
-    margin-left: 1.5rem;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-  }
-
-  nav a:hover,
-  nav a:focus {
-    color: #FFDC00;
-  }
-
-  main {
-    flex: 1;
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 1rem;
-  }
-
-  .hero h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    letter-spacing: 1.5px;
-  }
-
-  .hero p {
-    font-size: 1.25rem;
-    max-width: 600px;
-    line-height: 1.6;
-    color: #e0e0e0;
-  }
-
-  .sections {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 4rem;
-  }
-
-  .card {
-    background: rgba(255 255 255 / 0.1);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    transition: background 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .card:hover,
-  .card:focus {
-    background: rgba(255 255 255 / 0.2);
-  }
-
-  .card img {
-    width: 120px;
-    height: auto;
-    margin-bottom: 1.5rem;
-  }
-
-  .card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .card p {
-    color: #ddd;
-    font-size: 1rem;
-  }
-
-  footer {
-    background: rgba(0,0,0,0.7);
-    text-align: center;
-    padding: 1rem 2rem;
-    color: #aaa;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 600px) {
-    .hero h2 {
-      font-size: 2rem;
-    }
-
-    main {
-      padding: 1rem;
-    }
-  }
-</style>
-
-<header>
-  <h1>Fly8G</h1>
-  <nav>
-    {navLinks.map(({ href, label }) => (
-      <a href={href} tabindex="0">{label}</a>
-    ))}
-  </nav>
-</header>
-
-<main>
-  <section class="hero" aria-label="Welcome Section">
-    <h2>Welcome to Fly8G</h2>
-    <p>Your premier destination for aviation products, flying tips, and inspiring content. Fly higher, fly smarter.</p>
+<BaseLayout title="Fly8G - Home">
+  <section aria-label="Welcome Section" style="text-align:center; padding:4rem 1rem;">
+    <h2 style="font-size:3rem; margin-bottom:1rem; letter-spacing:1.5px;">
+      Welcome to Fly8G
+    </h2>
+    <p style="font-size:1.25rem; max-width:600px; margin:0 auto; line-height:1.6; color:#e0e0e0;">
+      Your premier destination for aviation products, flying tips, and inspiring content. Fly higher, fly smarter.
+    </p>
   </section>
 
-  <section class="sections" aria-label="Main Sections">
-    <a href="/products" class="card" tabindex="0" role="link">
-      <img src="/planes/plane2.png" alt="Products" loading="lazy" />
+  <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; margin-top:4rem;">
+    <a href="/products" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
+      <img src="/planes/plane2.png" alt="Products" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
       <h3>Products</h3>
       <p>Explore our curated selection of aviation gear and supplements for pilots and enthusiasts.</p>
     </a>
 
-    <a href="/youtube" class="card" tabindex="0" role="link">
-      <img src="/planes/plane3.png" alt="YouTube Channel" loading="lazy" />
+    <a href="/youtube" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
+      <img src="/planes/plane3.png" alt="YouTube Channel" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
       <h3>YouTube</h3>
       <p>Watch tutorials, flight adventures, and tips on our official Fly8G YouTube channel.</p>
     </a>
 
-    <a href="/flying-tips" class="card" tabindex="0" role="link">
-      <img src="/planes/plane4.png" alt="Flying Tips" loading="lazy" />
+    <a href="/flying-tips" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
+      <img src="/planes/plane4.png" alt="Flying Tips" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
       <h3>Flying Tips</h3>
       <p>Improve your piloting skills with expert tips and best practices from seasoned aviators.</p>
     </a>
   </section>
-</main>
-
-<footer>
-  &copy; {new Date().getFullYear()} Fly8G &mdash; contact@fly8g.com
-</footer>
+</BaseLayout>
