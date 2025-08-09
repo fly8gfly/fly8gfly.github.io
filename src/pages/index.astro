@@ -1,9 +1,112 @@
+---
+const pages = [
+  { img: "/planes/plane1.png", title: "Home", url: "/home" },
+  { img: "/planes/plane2.png", title: "Products", url: "/products" },
+  { img: "/planes/plane3.png", title: "YouTube", url: "/youtube" },
+  { img: "/planes/plane4.png", title: "Flying Tips", url: "/flying-tips" },
+];
+---
+
 <style>
-  /* ... keep previous styles ... */
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+    background: #000;
+    color: #fff;
+  }
 
-  /* Fly-in animations remain unchanged */
+  header, footer {
+    position: fixed;
+    left: 0; right: 0;
+    height: 60px;
+    line-height: 60px;
+    background: #111;
+    text-align: center;
+    z-index: 10;
+    user-select: none;
+  }
 
-  /* New fly-out animations */
+  header {
+    top: 0;
+  }
+
+  footer {
+    bottom: 0;
+    font-size: 0.9rem;
+    color: #888;
+  }
+
+  main {
+    position: absolute;
+    top: 60px; bottom: 60px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .container {
+    height: 100%;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+  }
+
+  section {
+    scroll-snap-align: start;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plane {
+    width: 352px;   /* 320 * 1.1 */
+    max-width: 90vw;
+    height: auto;
+    opacity: 0;
+    position: relative;
+    cursor: pointer;
+    transform-origin: center center;
+    transform: scale(1.1);
+  }
+
+  .title {
+    margin-top: 12px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    opacity: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Fly-in animations */
+  @keyframes flyInLeft {
+    from {
+      transform: translateX(-150%) rotate(-10deg) scale(1.1);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0) rotate(0deg) scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes flyInRight {
+    from {
+      transform: translateX(150%) rotate(10deg) scale(1.1);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0) rotate(0deg) scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  /* Fly-out animations */
   @keyframes flyOutLeft {
     from { transform: translateX(0) rotate(0deg) scale(1.1); opacity: 1; }
     to { transform: translateX(-150%) rotate(-10deg) scale(1.1); opacity: 0; }
@@ -14,7 +117,25 @@
     to { transform: translateX(150%) rotate(10deg) scale(1.1); opacity: 0; }
   }
 
-  /* When a section is leaving */
+  /* Current visible section: plane flies in */
+  section[data-visible="true"] .plane {
+    opacity: 1;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-name: flyInLeft;
+  }
+
+  section[data-visible="true"][data-side="right"] .plane {
+    animation-name: flyInRight;
+  }
+
+  section[data-visible="true"] .title {
+    opacity: 1;
+    animation: fadeIn 1.5s ease 1.5s forwards;
+  }
+
+  /* Leaving section: plane flies out */
   section[data-visible="leaving"] .plane {
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,6 +146,7 @@
   section[data-visible="leaving"][data-side="left"] .plane {
     animation-name: flyOutLeft;
   }
+
   section[data-visible="leaving"][data-side="right"] .plane {
     animation-name: flyOutRight;
   }
@@ -34,7 +156,47 @@
     opacity: 0;
     transition: opacity 0.4s ease;
   }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
 </style>
+
+<header>Fly8G Header</header>
+
+<main>
+  <div class="container" id="container">
+    {pages.map((page, i) => (
+      <section 
+        data-visible={i === 0 ? "true" : "false"} 
+        data-side={i < 2 ? "left" : "right"}
+        id={`section-${i}`}
+      >
+        <img
+          src={page.img}
+          alt={page.title}
+          class="plane"
+          role="link"
+          tabindex="0"
+          onClick={`window.location.href='${page.url}'`}
+          onKeyDown={(e) => { if(e.key === "Enter") window.location.href = page.url; }}
+        />
+        <div
+          class="title"
+          role="link"
+          tabindex="0"
+          onClick={`window.location.href='${page.url}'`}
+          onKeyDown={(e) => { if(e.key === "Enter") window.location.href = page.url; }}
+        >
+          {page.title}
+        </div>
+      </section>
+    ))}
+  </div>
+</main>
+
+<footer>contact@fly8g.com</footer>
 
 <script>
   (() => {
@@ -72,7 +234,7 @@
       }, 1500);
     }
 
-    // Touch/swipe and wheel handlers (same as before)
+    // Touch/swipe handlers
     let startY = null;
     container.addEventListener("touchstart", (e) => {
       if(e.touches.length !== 1) return;
@@ -91,6 +253,7 @@
       startY = null;
     }, { passive: true });
 
+    // Mouse wheel scroll
     container.addEventListener("wheel", (e) => {
       if (isAnimating) return;
       if (e.deltaY > 30) updateVisible(current + 1);
