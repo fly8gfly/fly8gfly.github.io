@@ -1,97 +1,253 @@
 ---
-import { onMount } from 'solid-js';
+// src/components/AirplaneCarousel.astro
+// Plain Astro component (no React). Expects these files in /public/planes:
+//  /public/planes/plane1.png
+//  /public/planes/plane2.png
+//  /public/planes/plane3.png
+//  /public/planes/plane4.png
 
-// Dynamically load plane images from /public/planes
 const planes = [
-  { name: "Plane 1", src: "/planes/plane1.png" },
-  { name: "Plane 2", src: "/planes/plane2.png" },
-  { name: "Plane 3", src: "/planes/plane3.png" },
-  { name: "Plane 4", src: "/planes/plane4.png" }
+  '/planes/plane1.png',
+  '/planes/plane2.png',
+  '/planes/plane3.png',
+  '/planes/plane4.png'
 ];
 ---
-
-<style>
-.carousel {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  margin: auto;
-  perspective: 1200px;
-  transform-style: preserve-3d;
-  user-select: none;
-}
-
-.carousel-track {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-}
-
-.carousel-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-style: preserve-3d;
-  transform-origin: center;
-}
-
-.carousel-item img {
-  width: 150px;
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-}
-</style>
-
-<div class="carousel" id="carousel">
-  <div class="carousel-track" id="carouselTrack">
-    {planes.map((plane, index) => (
-      <div class="carousel-item"
-        style={`transform: rotateY(${index * 90}deg) translateZ(200px)`}>
-        <img src={plane.src} alt={plane.name} />
+<div class="ac-wrapper">
+  <div class="ac-track" id="acTrack">
+    {planes.map((src, i) => (
+      <div
+        class="ac-item"
+        data-index={i}
+        style={`transform: rotateY(${i * (360 / planes.length)}deg) translateZ(300px) translate(-50%,-50%);`}
+      >
+        <img src={src} alt={`Plane ${i + 1}`} />
       </div>
     ))}
   </div>
 </div>
 
-<script>
-  let startX, currentRotation = 0;
-
-  const carouselTrack = document.getElementById("carouselTrack");
-
-  function rotateCarousel(deltaX) {
-    const rotationChange = deltaX / 2;
-    currentRotation += rotationChange;
-    carouselTrack.style.transform = `rotateY(${currentRotation}deg)`;
+<style>
+  .ac-wrapper {
+    width: 100%;
+    max-width: 820px;
+    height: 420px;
+    margin: 0 auto;
+    perspective: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
   }
 
-  document.getElementById("carousel").addEventListener("mousedown", e => {
-    startX = e.clientX;
-    const onMouseMove = eMove => {
-      rotateCarousel(eMove.clientX - startX);
-      startX = eMove.clientX;
-    };
-    const onMouseUp = () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-  });
+  .ac-track {
+    width: 640px;
+    height: 360px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(.2,.9,.2,1);
+  }
 
-  document.getElementById("carousel").addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-    const onTouchMove = eMove => {
-      rotateCarousel(eMove.touches[0].clientX - startX);
-      startX = eMove.touches[0].clientX;
-    };
-    const onTouchEnd = () => {
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
-    };
-    window.addEventListener("touchmove", onTouchMove);
-    window.addEventListener("touchend", onTouchEnd);
+  .ac-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 260px;
+    height: 140px;
+    transform-style: preserve-3d;
+    pointer-events: none; /* interactions go to the track for drag */
+  }
+
+  .ac-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  /* front highlight */
+  .ac-item.active img {
+    transform: translateZ(40px) scale(1.06);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  }
+
+  /* Fly-away (shrinks & fades) */
+  .ac-item img.fly-away {
+    transform: translateZ(-220px) scale(0.28);
+    opacity: 0.22;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+  }
+
+  /* Fly-back (close to camera) */
+  .ac-item img.fly-back {
+    transform: translateZ(80px) scale(1.18);
+    opacity: 1;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+  }
+
+  /* Tricks (these are applied AFTER fly-away; they animate the img element) */
+  @keyframes ac-roll {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(720deg); }
+  }
+  .ac-item img.trick-roll {
+    animation: ac-roll 1200ms linear forwards;
+  }
+
+  @keyframes ac-loop {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(720deg); }
+  }
+  .ac-item img.trick-loop {
+    animation: ac-loop 1200ms linear forwards;
+  }
+
+  @keyframes ac-bank {
+    0%   { transform: rotateZ(0deg); }
+    50%  { transform: rotateZ(30deg); }
+    100% { transform: rotateZ(0deg); }
+  }
+  .ac-item img.trick-bank {
+    animation: ac-bank 1000ms ease-in-out forwards;
+  }
+
+  /* small responsive tweaks */
+  @media (max-width: 700px) {
+    .ac-track { width: 320px; height: 240px; }
+    .ac-item { width: 160px; height: 96px; }
+  }
+</style>
+
+<script>
+  // Client-side script (runs in browser).
+  // Pure DOM API. No frameworks.
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('acTrack');
+    const items = Array.from(track.querySelectorAll('.ac-item'));
+    const n = items.length;
+    const step = 360 / n;
+    let radius = 300; // used for initial transforms (kept in CSS inline, but used here on resize)
+    let rotation = 0; // track rotation in degrees
+    let dragging = false;
+    let startX = null;
+    let animating = false; // ensure only one plane trick at a time
+
+    function setTrackRotation(deg) {
+      rotation = deg;
+      track.style.transform = `translateZ(-${radius}px) rotateY(${rotation}deg)`;
+      updateActive();
+    }
+
+    function updateActive() {
+      // activeIndex is plane facing the viewer (angle + rotation ≈ 0)
+      // Solve: (i * step + rotation) % 360 ≈ 0 => i ≈ -rotation/step
+      const idx = ((-Math.round(rotation / step) % n) + n) % n;
+      items.forEach((it, i) => it.classList.toggle('active', i === idx));
+    }
+
+    // Recompute radius & re-place items on resize
+    function placeItems() {
+      const maxW = Math.min(track.clientWidth, 760);
+      // radius proportional to container width
+      radius = Math.round(maxW * 0.48);
+      items.forEach((it, i) => {
+        const angle = i * step;
+        // set base transform with updated radius
+        it.style.transform = `rotateY(${angle}deg) translateZ(${radius}px) translate(-50%,-50%)`;
+      });
+      // apply current track rotation again
+      setTrackRotation(rotation);
+    }
+
+    // Drag / swipe handlers
+    function onPointerDown(e) {
+      dragging = true;
+      startX = (e.touches ? e.touches[0].clientX : e.clientX);
+    }
+    function onPointerMove(e) {
+      if (!dragging) return;
+      const x = (e.touches ? e.touches[0].clientX : e.clientX);
+      const dx = x - startX;
+      startX = x;
+      rotation += dx * 0.35; // sensitivity
+      setTrackRotation(rotation);
+    }
+    function onPointerUp() {
+      dragging = false;
+      startX = null;
+    }
+
+    // Aerobatic loop (one plane at a time)
+    const tricks = ['roll', 'loop', 'bank'];
+    function animatePlane(index) {
+      if (animating) return;
+      animating = true;
+      const img = items[index].querySelector('img');
+
+      // 1) fly away
+      img.classList.add('fly-away');
+
+      // after fly-away, do trick
+      setTimeout(() => {
+        img.classList.remove('fly-away');
+
+        const trick = tricks[Math.floor(Math.random() * tricks.length)];
+        img.classList.add('trick-' + trick);
+
+        // trick duration (match CSS durations above)
+        const trickDur = trick === 'bank' ? 1000 : 1200;
+
+        setTimeout(() => {
+          img.classList.remove('trick-' + trick);
+          // 3) fly-back (close)
+          img.classList.add('fly-back');
+
+          setTimeout(() => {
+            img.classList.remove('fly-back');
+            animating = false;
+            scheduleNextTrick(); // schedule next after finishing
+          }, 900);
+        }, trickDur);
+      }, 800);
+    }
+
+    function scheduleNextTrick() {
+      // random delay between tricks
+      const delay = 1500 + Math.random() * 4500;
+      setTimeout(() => {
+        if (!animating) {
+          const idx = Math.floor(Math.random() * n);
+          animatePlane(idx);
+        } else {
+          scheduleNextTrick();
+        }
+      }, delay);
+    }
+
+    // init
+    placeItems();
+    setTrackRotation(0);
+    scheduleNextTrick();
+
+    // Events
+    // mouse
+    track.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    // touch
+    track.addEventListener('touchstart', onPointerDown, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerUp, { passive: true });
+
+    // resize
+    window.addEventListener('resize', () => {
+      placeItems();
+    });
   });
 </script>
