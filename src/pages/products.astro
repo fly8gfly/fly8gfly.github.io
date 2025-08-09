@@ -1,8 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const products = [
+  {
+    name: "Fungeyes",
+    url: "https://www.fungeyes.com",
+    description: "High-quality sunglasses designed specifically for pilots to reduce glare and improve visibility.",
+    image: "/products/fungeyes.jpg",
+  },
+  // Add more products here later
+];
 ---
 
-<BaseLayout title="Fly8G - Products">
-  <h2>Products</h2>
-  <p>Coming soon! We’ll offer the best aviation gear and supplements tailored for pilots and aviation enthusiasts.</p>
+<BaseLayout title="Fly8G - Recommended Products">
+  <h2 style="margin-bottom:1rem;">Recommended Products for Pilots</h2>
+  <p style="max-width:700px; line-height:1.5; margin-bottom:2rem;">
+    We’ve handpicked products that help pilots perform better, stay safe, and enjoy their flying experience.
+  </p>
+
+  <ul style="list-style:none; padding:0; max-width:700px;">
+    {products.map(product => (
+      <li style="margin-bottom:2rem; background:rgba(255 255 255 / 0.1); padding:1rem 1.5rem; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.3); display:flex; gap:1rem; align-items:center;">
+        {product.image && (
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            style="width:120px; height:auto; border-radius:6px; object-fit:contain;"
+          />
+        )}
+        <div>
+          <a
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style="font-weight:700; font-size:1.25rem; color:#FFDC00; text-decoration:none;"
+          >
+            {product.name}
+          </a>
+          <p style="margin-top:0.5rem; color:#ddd; font-size:1rem; max-width:500px;">
+            {product.description}
+          </p>
+        </div>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
