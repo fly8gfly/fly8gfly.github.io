@@ -1,66 +1,39 @@
 ---
-import Disc from './Disc.jsx';
-const discNames = ['Home', 'Products', 'youtube', 'flying-tips'];
+import { useState } from "react";
+import Disc from "./Disc.jsx";
+
+// Discs in public/discs
+const discs = [
+  { src: "/discs/Home.jpg", title: "Home" },
+  { src: "/discs/Products.jpg", title: "Products" },
+  { src: "/discs/flying-tips.jpg", title: "Flying Tips" },
+  { src: "/discs/youtube.jpg", title: "YouTube" }
+];
 ---
 
-<div class="carousel-wrapper">
-  <div class="carousel" id="carousel">
-    {discNames.map((name, index) => (
-      <Disc name={name} index={index} />
-    ))}
+<div class="relative w-[300px] h-[300px] mx-auto overflow-hidden">
+  <div
+    class="relative w-full h-full"
+    style="transform-style: preserve-3d; transition: transform 1s ease;"
+    client:load
+  >
+    {
+      discs.map((disc, i) => {
+        const angle = (i / discs.length) * 360;
+        const radius = 120; // fake depth
+        const x = Math.sin((angle * Math.PI) / 180) * radius;
+        const z = Math.cos((angle * Math.PI) / 180) * radius;
+
+        return (
+          <Disc
+            src={disc.src}
+            title={disc.title}
+            style={{
+              transform: `translateX(${x}px) translateZ(${z}px)`,
+            }}
+          />
+        );
+      })
+    }
   </div>
 </div>
-
-<style>
-  .carousel-wrapper {
-    perspective: 1000px;
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-  }
-
-  .carousel {
-    position: relative;
-    transform-style: preserve-3d;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s ease-out;
-  }
-</style>
-
-<script type="module">
-  window.addEventListener('DOMContentLoaded', () => {
-    let angle = 0;
-    const carousel = document.getElementById('carousel');
-
-    const rotateCarousel = (delta) => {
-      angle += delta;
-      carousel.style.transform = `rotateY(${angle}deg)`;
-    };
-
-    let startX = null;
-    let dragging = false;
-
-    const start = (e) => {
-      dragging = true;
-      startX = e.touches ? e.touches[0].clientX : e.clientX;
-    };
-
-    const move = (e) => {
-      if (!dragging) return;
-      const x = e.touches ? e.touches[0].clientX : e.clientX;
-      const delta = x - startX;
-      rotateCarousel(delta * -0.3);
-      startX = x;
-    };
-
-    const end = () => (dragging = false);
-
-    carousel.addEventListener('mousedown', start);
-    carousel.addEventListener('mousemove', move);
-    carousel.addEventListener('mouseup', end);
-    carousel.addEventListener('touchstart', start);
-    carousel.addEventListener('touchmove', move);
-    carousel.addEventListener('touchend', end);
-  });
-</script>
