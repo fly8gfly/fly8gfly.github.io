@@ -49,6 +49,9 @@ const navLinks = [
       height: 22px;
       cursor: pointer;
       z-index: 110;
+      background: transparent;
+      border: none;
+      padding: 0;
     }
 
     .hamburger div {
@@ -68,6 +71,13 @@ const navLinks = [
     }
     .hamburger.open div:nth-child(3) {
       transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Focus style for accessibility */
+    .hamburger:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px #FFDC00; /* visible yellow focus ring */
+      border-radius: 4px;
     }
 
     /* Logo */
@@ -161,6 +171,7 @@ const navLinks = [
       aria-expanded="false"
       aria-controls="nav-menu"
       id="hamburger-button"
+      type="button"
     >
       <div></div>
       <div></div>
