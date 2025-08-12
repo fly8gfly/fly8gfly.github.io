@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 
-// Reusable Card component (defined as a fragment to avoid extra DOM elements)
+// Reusable Card component
 const Card = ({ href, imgSrc, imgAlt, title, description }) => (
   <a href={href} class="card" aria-label={`${title} section`}>
     <Image src={imgSrc} alt={imgAlt} width={120} height={120} loading="lazy" />
@@ -16,7 +16,7 @@ const Card = ({ href, imgSrc, imgAlt, title, description }) => (
   <section aria-label="Welcome Section" class="welcome-section">
     <h2>
       Welcome to 
-      <Image src="/logo.jpg" alt="Fly8G Logo" width={48} height={48} class="logo" />
+      <Image src="/logo.jpg" alt="Fly8G Logo" width={64} height={64} class="logo" />
     </h2>
     <p>Your premier destination for aviation products, flying tips, and inspiring content. Fly higher, fly smarter.</p>
   </section>
@@ -64,7 +64,7 @@ const Card = ({ href, imgSrc, imgAlt, title, description }) => (
   }
 
   .welcome-section .logo {
-    height: 3rem;
+    height: 4rem; /* Increased from 3rem to 4rem */
     user-select: none;
   }
 
