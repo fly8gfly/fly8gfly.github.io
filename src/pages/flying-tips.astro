@@ -1,48 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-// Example blog posts
-const blogPosts = [
-  {
-    title: "5 Tips for Perfect Landings",
-    url: "/blog/perfect-landings"
-  },
-  {
-    title: "How to Plan a Cross-Country Flight",
-    url: "/blog/cross-country-planning"
-  }
-];
-
-// Helpful external websites
-const resources = [
-  { name: "AOPA", url: "https://www.aopa.org/" },
-  { name: "FAASafety.gov", url: "https://www.faasafety.gov/" },
-  { name: "SkyVector", url: "https://skyvector.com/" }
-];
 ---
 
 <BaseLayout title="Fly8G - Flying Tips">
   <h2>Flying Tips</h2>
+  <p>Learn from experienced pilots with our growing library of practical flying advice and best practices.</p>
+
+  <h3>Our Blog</h3>
   <p>
-    Learn from experienced pilots with our growing library of practical flying advice, 
-    best practices, and trusted aviation resources.
+    <a href="/blog" target="_self">Read our Flying Tips Blog</a>
   </p>
 
-  <h3>📘 Blog Articles</h3>
+  <h3>Helpful Pilot Websites</h3>
   <ul>
-    {blogPosts.map(post => (
-      <li><a href={post.url}>{post.title}</a></li>
-    ))}
-  </ul>
-
-  <h3>🌐 Helpful Websites</h3>
-  <ul>
-    {resources.map(resource => (
-      <li>
-        <a href={resource.url} target="_blank" rel="noopener noreferrer">
-          {resource.name}
-        </a>
-      </li>
-    ))}
+    <li><a href="https://www.aopa.org/" target="_blank" rel="noopener noreferrer">AOPA – Aircraft Owners & Pilots Association</a></li>
+    <li><a href="https://www.faa.gov/" target="_blank" rel="noopener noreferrer">FAA – Federal Aviation Administration</a></li>
+    <li><a href="https://skyvector.com/" target="_blank" rel="noopener noreferrer">SkyVector – Aeronautical Charts</a></li>
+    <li><a href="https://aviationweather.gov/" target="_blank" rel="noopener noreferrer">Aviation Weather Center</a></li>
   </ul>
 </BaseLayout>
