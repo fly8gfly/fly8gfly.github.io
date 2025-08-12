@@ -41,6 +41,30 @@ const navLinks = [
       outline: none;
     }
 
+    /* Main content (blog posts etc) link and text styling */
+    main a {
+      color: #FFD700;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    main a:hover,
+    main a:focus-visible {
+      color: #FFEA00;
+      text-decoration: underline;
+      outline: none;
+    }
+    main p, main ul, main ol {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #f0f0f0;
+    }
+    main h1, main h2, main h3, main h4, main h5, main h6 {
+      color: #FFD700;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
     header {
       background: rgba(0,0,0,0.7);
       display: flex;
