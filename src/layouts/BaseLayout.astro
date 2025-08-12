@@ -28,6 +28,19 @@ const navLinks = [
       flex-direction: column;
     }
 
+    /* Global link styles */
+    a {
+      color: #FFD700; /* bright gold */
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    a:hover,
+    a:focus-visible {
+      color: #FFEA00; /* brighter yellow */
+      text-decoration: underline;
+      outline: none;
+    }
+
     header {
       background: rgba(0,0,0,0.7);
       display: flex;
@@ -114,17 +127,20 @@ const navLinks = [
     }
 
     nav a {
-      color: #f0f0f0;
+      color: #FFD700; /* bright gold nav links */
       font-weight: 600;
       text-decoration: none;
       font-size: 1.2rem;
       user-select: none;
       outline-offset: 2px;
+      transition: color 0.2s ease;
     }
 
     nav a:hover,
-    nav a:focus {
-      color: #FFDC00;
+    nav a:focus-visible {
+      color: #FFEA00; /* brighter yellow on hover/focus */
+      text-decoration: underline;
+      outline: none;
     }
 
     main {
