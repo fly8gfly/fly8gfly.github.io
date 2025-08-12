@@ -1,10 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Example blog posts
+const blogPosts = [
+  {
+    title: "5 Tips for Perfect Landings",
+    url: "/blog/perfect-landings"
+  },
+  {
+    title: "How to Plan a Cross-Country Flight",
+    url: "/blog/cross-country-planning"
+  }
+];
+
+// Helpful external websites
+const resources = [
+  { name: "AOPA", url: "https://www.aopa.org/" },
+  { name: "FAASafety.gov", url: "https://www.faasafety.gov/" },
+  { name: "SkyVector", url: "https://skyvector.com/" }
+];
 ---
 
 <BaseLayout title="Fly8G - Flying Tips">
   <h2>Flying Tips</h2>
-  <p>Learn from experienced pilots with our growing library of practical flying advice and best practices.</p>
-  <p>https://www.aopa.org/</p>
-  <p>Check back soon for new tips and tutorials!</p>
+  <p>
+    Learn from experienced pilots with our growing library of practical flying advice, 
+    best practices, and trusted aviation resources.
+  </p>
+
+  <h3>📘 Blog Articles</h3>
+  <ul>
+    {blogPosts.map(post => (
+      <li><a href={post.url}>{post.title}</a></li>
+    ))}
+  </ul>
+
+  <h3>🌐 Helpful Websites</h3>
+  <ul>
+    {resources.map(resource => (
+      <li>
+        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+          {resource.name}
+        </a>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
