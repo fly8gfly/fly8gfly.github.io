@@ -1,35 +1,130 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+// Reusable Card component (defined as a fragment to avoid extra DOM elements)
+const Card = ({ href, imgSrc, imgAlt, title, description }) => (
+  <a href={href} class="card" aria-label={`${title} section`}>
+    <Image src={imgSrc} alt={imgAlt} width={120} height={120} loading="lazy" />
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </a>
+);
 ---
 
 <BaseLayout title="Fly8G - Home">
-  <section aria-label="Welcome Section" style="text-align:center; padding:4rem 1rem;">
-    <h2 style="font-size:3rem; margin-bottom:1rem; letter-spacing:1.5px; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+  <section aria-label="Welcome Section" class="welcome-section">
+    <h2>
       Welcome to 
-      <img src="/logo.jpg" alt="Fly8G Logo" style="height: 3rem; user-select: none;" />
+      <Image src="/logo.jpg" alt="Fly8G Logo" width={48} height={48} class="logo" />
     </h2>
-    <p style="font-size:1.25rem; max-width:600px; margin:0 auto; line-height:1.6; color:#e0e0e0;">
-      Your premier destination for aviation products, flying tips, and inspiring content. Fly higher, fly smarter.
-    </p>
+    <p>Your premier destination for aviation products, flying tips, and inspiring content. Fly higher, fly smarter.</p>
   </section>
 
-  <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; margin-top:4rem;">
-    <a href="/products" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
-      <img src="/planes/plane1.png" alt="Products" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
-      <h3>Products</h3>
-      <p>Explore our curated selection of aviation gear and supplements for pilots and enthusiasts.</p>
-    </a>
-
-    <a href="/youtube" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
-      <img src="/planes/plane3.png" alt="YouTube Channel" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
-      <h3>YouTube</h3>
-      <p>Watch tutorials, flight adventures, and tips on our Fly8G hand selected YouTube channels.</p>
-    </a>
-
-    <a href="/flying-tips" class="card" style="background:rgba(255 255 255 / 0.1); border-radius:12px; padding:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); text-align:center; color:#fff; text-decoration:none; transition:background 0.3s ease;">
-      <img src="/planes/plane4.png" alt="Flying Tips" loading="lazy" style="width:120px; margin-bottom:1.5rem;" />
-      <h3>Flying Tips</h3>
-      <p>Improve your piloting skills with expert tips and best practices from seasoned aviators.  Along with links to helpful websites that will inspire you to take flight in all your pursuits.</p>
-    </a>
+  <section class="card-grid">
+    <Card
+      href="/products"
+      imgSrc="/planes/plane1.png"
+      imgAlt="Products"
+      title="Products"
+      description="Explore our curated selection of aviation gear and supplements for pilots and enthusiasts."
+    />
+    <Card
+      href="/youtube"
+      imgSrc="/planes/plane3.png"
+      imgAlt="YouTube Channel"
+      title="YouTube"
+      description="Watch tutorials, flight adventures, and tips on our Fly8G hand selected YouTube channels."
+    />
+    <Card
+      href="/flying-tips"
+      imgSrc="/planes/plane4.png"
+      imgAlt="Flying Tips"
+      title="Flying Tips"
+      description="Improve your piloting skills with expert tips and best practices from seasoned aviators. Along with links to helpful websites that will inspire you to take flight in all your pursuits."
+    />
   </section>
 </BaseLayout>
+
+<style>
+  .welcome-section {
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+
+  .welcome-section h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    letter-spacing: 1.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .welcome-section .logo {
+    height: 3rem;
+    user-select: none;
+  }
+
+  .welcome-section p {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #e0e0e0;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+    padding: 0 1rem;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .card img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+  }
+
+  .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .welcome-section {
+      padding: 2rem 1rem;
+    }
+
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>
