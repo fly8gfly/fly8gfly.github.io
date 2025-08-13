@@ -9,7 +9,7 @@ const youtubeChannels = [
   },
   {
     name: "Airplanes in the wild",
-    url: "https://https://youtube.com/@airplanesinthewild?si=n9PmmYaJbcJjaR2S",
+    url: "https://youtube.com/@airplanesinthewild?si=n9PmmYaJbcJjaR2S",
     description: "Real-world flying adventures and aviation education."
   },
   {
@@ -30,22 +30,97 @@ const youtubeChannels = [
 ];
 ---
 
-<BaseLayout title="Fly8G - Recommended YouTube Channels">
-  <h2 style="margin-bottom:1rem;">Recommended YouTube Channels for Pilots</h2>
-  <p style="max-width:700px; line-height:1.5; margin-bottom:2rem;">
-    Below is a curated list of YouTube channels offering valuable content to pilots and aviation enthusiasts. These channels cover everything from flight training tips to real-world flying experiences.
-  </p>
+<!-- Theme Preloader -->
+<script is:inline>
+  (function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  })();
+</script>
 
-  <ul style="list-style:none; padding:0; max-width:700px;">
+<BaseLayout title="Fly8G - Recommended YouTube Channels">
+  <section class="welcome">
+    <h2>Recommended YouTube Channels for Pilots</h2>
+    <p>
+      Below is a curated list of YouTube channels offering valuable content to pilots and aviation enthusiasts. These channels cover everything from flight training tips to real-world flying experiences.
+    </p>
+  </section>
+
+  <ul class="youtube-list">
     {youtubeChannels.map(channel => (
-      <li style="margin-bottom:1.75rem; background:rgba(255 255 255 / 0.1); padding:1rem 1.5rem; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
-        <a href={channel.url} target="_blank" rel="noopener noreferrer" style="font-weight:700; font-size:1.25rem; color:#FFDC00; text-decoration:none;">
+      <li class="youtube-card">
+        <a href={channel.url} target="_blank" rel="noopener noreferrer">
           {channel.name}
         </a>
-        <p style="margin-top:0.5rem; color:#ddd; font-size:1rem;">
-          {channel.description}
-        </p>
+        <p>{channel.description}</p>
       </li>
     ))}
   </ul>
 </BaseLayout>
+
+<style>
+  /* Body inherits from global variables */
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .welcome {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .welcome h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .welcome p {
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+    color: var(--text);
+    font-size: 1.15rem;
+  }
+
+  .youtube-list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .youtube-card {
+    margin-bottom: 1.75rem;
+    background: var(--card-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .youtube-card a {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .youtube-card a:hover {
+    text-decoration: underline;
+  }
+
+  .youtube-card p {
+    margin-top: 0.5rem;
+    color: var(--text);
+    font-size: 1rem;
+  }
+</style>
