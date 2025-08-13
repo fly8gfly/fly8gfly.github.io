@@ -5,18 +5,55 @@ const products = [
   {
     name: "Fungeyes",
     url: "https://www.fungeyes.com",
-    description: "High-quality sunglasses designed specifically for finding mushrooms. However, we have found they work great for pilots to improve visibility.  use this discount code MOUNTAINMAN for 10%off & free shipping!",
+    description: "High-quality sunglasses designed specifically for finding mushrooms. However, we have found they work great for pilots to improve visibility. Use discount code MOUNTAINMAN for 10% off & free shipping!",
     image: "/products/fungeyes.jpg",
   },
   {
     name: "WildCrowd",
     url: "https://www.wildcrowd.com",
-    description: "Quality supplements for pilots and the flying community.  Use ADVENTURE10 discount code for 10% off at checkout.",
+    description: "Quality supplements for pilots and the flying community. Use ADVENTURE10 discount code for 10% off at checkout.",
     image: "/products/WildCrowd.png",
   }
-  // Add more products here later
 ];
 ---
+
+<style>
+  :root {
+    --card-bg: rgba(255, 255, 255, 0.9); /* Light mode card background */
+    --card-text: #111827; /* Light mode text color */
+  }
+
+  html.dark {
+    --card-bg: rgba(17, 24, 39, 0.9); /* Dark mode card background */
+    --card-text: #f3f4f6; /* Light text for dark mode */
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    color: var(--card-text);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .product-card a {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #FFDC00;
+    text-decoration: none;
+  }
+
+  .product-card p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    max-width: 500px;
+    color: var(--card-text);
+  }
+</style>
 
 <BaseLayout title="Fly8G - Recommended Products">
   <h2 style="margin-bottom:1rem;">Recommended Products for Pilots</h2>
@@ -26,7 +63,7 @@ const products = [
 
   <ul style="list-style:none; padding:0; max-width:700px;">
     {products.map(product => (
-      <li style="margin-bottom:2rem; background:rgba(255 255 255 / 0.1); padding:1rem 1.5rem; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.3); display:flex; gap:1rem; align-items:center;">
+      <li class="product-card">
         {product.image && (
           <img
             src={product.image}
@@ -40,13 +77,10 @@ const products = [
             href={product.url}
             target="_blank"
             rel="noopener noreferrer"
-            style="font-weight:700; font-size:1.25rem; color:#FFDC00; text-decoration:none;"
           >
             {product.name}
           </a>
-          <p style="margin-top:0.5rem; color:#ddd; font-size:1rem; max-width:500px;">
-            {product.description}
-          </p>
+          <p>{product.description}</p>
         </div>
       </li>
     ))}
