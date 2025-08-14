@@ -62,20 +62,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     --backdrop: rgba(0, 0, 0, 0.5);
   }
 
-  /* Dark mode variables */
-  [data-theme="dark"] {
-    --bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --surface: #1f2937;
-    --text: #ffffff;
-    --muted: #9ca3af;
-    --accent: #3b82f6;
-    --header-bg: rgba(17, 24, 39, 0.95);
-    --footer-bg: rgba(31, 41, 55, 0.95);
-    --nav-bg: rgba(17, 24, 39, 0.98);
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    --card-bg: #0f172a; /* pure dark navy */
-    --backdrop: rgba(0, 0, 0, 0.85);
-  }
+/* Dark mode variables */
+[data-theme="dark"] {
+  --bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* page background gradient */
+  --surface: #1f2937; /* surfaces like panels or secondary backgrounds */
+  --text: #ffffff; /* primary text */
+  --muted: #9ca3af; /* secondary text */
+  --accent: #3b82f6; /* links, buttons, highlights */
+  --header-bg: #111f3b; /* solid dark blue header */
+  --footer-bg: #1b2b4a; /* slightly lighter footer */
+  --nav-bg: #111f3b; /* solid dark blue nav */
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* card/header shadows */
+  --card-bg: #0f172a; /* solid dark navy card background */
+  --backdrop: rgba(0, 0, 0, 0.85); /* very dark overlay for modals/dropdowns */
+}
 
   /* Body */
   body {
