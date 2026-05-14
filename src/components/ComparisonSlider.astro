@@ -1,24 +1,28 @@
-ction class="comparison-section">
-  <div class="comparison-container">
+<section class="comparison-section">
+  <div class="comparison-container" id="comparison-container">
 
+    <!-- BASE IMAGE -->
     <img
       src="/without-fly8g.JPEG"
       alt="Without Fly8G lenses"
       class="comparison-image"
     />
 
+    <!-- OVERLAY IMAGE -->
     <div class="overlay" id="overlay">
       <img
         src="/with-fly8g.JPEG"
         alt="With Fly8G lenses"
-        class="comparison-image"
+        class="comparison-image overlay-image"
       />
     </div>
 
+    <!-- SLIDER -->
     <div class="slider" id="slider">
       <div class="slider-button"></div>
     </div>
 
+    <!-- LABELS -->
     <div class="label left-label">
       WITHOUT FLY8G
     </div>
@@ -31,16 +35,17 @@ ction class="comparison-section">
 </section>
 
 <script is:inline>
-  const container = document.querySelector('.comparison-container');
+  const container = document.getElementById('comparison-container');
   const overlay = document.getElementById('overlay');
   const slider = document.getElementById('slider');
 
   let isDragging = false;
 
-  function moveSlider(x) {
+  function moveSlider(clientX) {
+
     const rect = container.getBoundingClientRect();
 
-    let position = x - rect.left;
+    let position = clientX - rect.left;
 
     if (position < 0) position = 0;
     if (position > rect.width) position = rect.width;
@@ -77,94 +82,116 @@ ction class="comparison-section">
 </script>
 
 <style>
+
 .comparison-section {
   background: #050505;
-  padding: 4rem 0;
+  padding: 5rem 0;
 }
 
 .comparison-container {
   position: relative;
-  width: 90%;
+  width: 92%;
   max-width: 1400px;
   margin: auto;
   overflow: hidden;
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border-radius: 22px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.45);
 }
 
+/* BOTH IMAGES */
 .comparison-image {
   width: 100%;
+  height: auto;
   display: block;
   user-select: none;
   pointer-events: none;
 }
 
+/* OVERLAY LAYER */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 50%;
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
 }
 
+/* THIS IS THE IMPORTANT FIX */
+.overlay-image {
+  width: 100%;
+  height: auto;
+  max-width: none;
+  display: block;
+}
+
+/* SLIDER BAR */
 .slider {
   position: absolute;
   top: 0;
   left: 50%;
   width: 4px;
   height: 100%;
-  background: white;
+  background: rgba(255,255,255,0.95);
   transform: translateX(-50%);
   cursor: ew-resize;
-  z-index: 10;
+  z-index: 20;
 }
 
+/* CENTER BUTTON */
 .slider-button {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 60px;
-  height: 60px;
-  background: rgba(255,255,255,0.95);
+  width: 64px;
+  height: 64px;
+  background: white;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  box-shadow: 0 0 35px rgba(0,0,0,0.45);
 }
 
+/* LABELS */
 .label {
   position: absolute;
   top: 24px;
   padding: 10px 18px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  z-index: 20;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  border-radius: 999px;
+  z-index: 30;
 }
 
 .left-label {
   left: 24px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.72);
   color: white;
 }
 
 .right-label {
   right: 24px;
-  background: rgba(37,99,235,0.85);
+  background: rgba(37,99,235,0.92);
   color: white;
 }
 
+/* MOBILE */
 @media (max-width: 768px) {
+
+  .comparison-section {
+    padding: 3rem 0;
+  }
+
   .slider-button {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 
   .label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     padding: 8px 14px;
   }
+
 }
+
 </style>
