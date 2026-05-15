@@ -3,604 +3,155 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ComparisonSlider from '../components/ComparisonSlider.astro';
 ---
 
-<BaseLayout title="Fly8G - Aviation Sunglasses">
+<BaseLayout title="FLY8G">
 
-  <!-- HERO SECTION -->
+<section class="hero">
 
-  <section class="hero" aria-label="Fly8G Hero">
+  <div class="hero-overlay">
 
     <div class="hero-content">
 
-      <!-- LEFT SIDE -->
+      <p class="hero-eyebrow">
+        FLY8G PILOT SUNGLASSES
+      </p>
 
-      <div class="hero-text">
+      <h1>
+        SEE CLEARER.<br />
+        FLY SAFER.
+      </h1>
 
-        <p class="hero-label">
-          Aviation Sunglasses
-        </p>
+      <p class="hero-text">
+        Purpose-built aviation sunglasses engineered for real cockpit conditions.
+      </p>
 
-        <h1>
-          SEE TRAFFIC<br />
-          CLEARER.
-        </h1>
-
-        <p class="hero-description">
-          Non-polarized aviation lenses engineered for cockpit visibility,
-          reduced glare, and crystal-clear instrument readability.
-        </p>
-
-        <div class="hero-buttons">
-
-          <a href="/products" class="primary-btn">
-            Shop Sunglasses
-          </a>
-
-          <a href="#comparison" class="secondary-btn">
-            See The Difference
-          </a>
-
-        </div>
-
-      </div>
-
-      <!-- RIGHT SIDE -->
-
-      <div class="hero-image">
-
-        <img
-          src="/cockpit-hero.JPEG"
-          alt="Pilot wearing Fly8G sunglasses"
-        />
-
-        <div class="floating-card">
-
-          <p class="floating-label">
-            Lens Technology
-          </p>
-
-          <h3>
-            Gradient Cockpit Tint
-          </h3>
-
-          <p>
-            Dark upper transition blocks harsh sunlight while the lighter lower lens keeps gauges readable.
-          </p>
-
-        </div>
-
-      </div>
+      <a
+        href="https://wildcrowd.com"
+        class="hero-button"
+      >
+        Shop Fly8G At WildCrowd
+      </a>
 
     </div>
 
-  </section>
+  </div>
 
-  <!-- FEATURE CARDS -->
+</section>
 
-  <section class="card-grid">
+<section class="feature-strip">
 
-    <a href="/products" class="card">
-      <img src="/planes/plane1.png" alt="Products" loading="lazy" />
-      <h3>Enhanced Aircraft Contrast</h3>
-      <p>
-        Special blue aviation tint designed to help aircraft stand out against haze and bright sky conditions.
-      </p>
-    </a>
+  <div class="feature-item">
+    ✈️ Enhanced Clarity
+  </div>
 
-    <a href="/products" class="card">
-      <img src="/planes/plane3.png" alt="Cockpit Visibility" loading="lazy" />
-      <h3>Gradient Cockpit Tint</h3>
-      <p>
-        Dark upper transition blocks harsh overhead sunlight while the lighter lower lens keeps gauges easy to read.
-      </p>
-    </a>
+  <div class="feature-item">
+    ☀️ Dark Top Transition
+  </div>
 
-    <a href="/products" class="card">
-      <img src="/planes/plane4.png" alt="Non Polarized Lenses" loading="lazy" />
-      <h3>Non-Polarized Aviation Safe</h3>
-      <p>
-        No LCD blackout, rainbow distortion, or instrument display interference while flying.
-      </p>
-    </a>
+  <div class="feature-item">
+    📟 Clear Instrument Visibility
+  </div>
 
-  </section>
+  <div class="feature-item">
+    🛡️ Non-Polarized Aviation Safe
+  </div>
+
+</section>
+
 <ComparisonSlider />
-<section class="features-section">
 
-  <div class="features-header">
-    <p class="features-eyebrow">
-      ENGINEERED FOR THE COCKPIT
-    </p>
+<footer class="footer">
 
-    <h2>
-      Built For Pilots.<br />
-      Not Just Sunlight.
-    </h2>
-
-    <p class="features-intro">
-      FLY8G lenses are designed specifically for aviation visibility,
-      glare control, and real-world cockpit conditions.
-    </p>
+  <div>
+    © 2025 FLY8G
   </div>
 
-  <div class="features-grid">
-
-    <div class="feature-card">
-      <div class="feature-icon">✈️</div>
-
-      <h3>Enhanced Aircraft Contrast</h3>
-
-      <p>
-        Special blue aviation tint helps aircraft stand out against haze,
-        glare, and bright skies.
-      </p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon">☀️</div>
-
-      <h3>Dark Upper Gradient</h3>
-
-      <p>
-        Darker upper lens transition blocks harsh overhead sunlight
-        without reducing lower visibility.
-      </p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon">📟</div>
-
-      <h3>Clear Instrument Visibility</h3>
-
-      <p>
-        Lighter lower lens area keeps gauges, avionics,
-        and displays easy to read in flight.
-      </p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon">🛡️</div>
-
-      <h3>Non-Polarized Aviation Safe</h3>
-
-      <p>
-        No LCD blackout, rainbow distortion,
-        or visibility issues with cockpit screens.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-<section class="product-section">
-
-  <div class="product-image">
-    <img
-      src="/cockpit-hero.JPEG"
-      alt="FLY8G Aviation Sunglasses"
-    />
-  </div>
-
-  <div class="product-content">
-
-    <p class="product-eyebrow">
-      FLAGSHIP AVIATION LENS
-    </p>
-
-    <h2>
-      FLY8G Gradient Pilot Sunglasses
-    </h2>
-
-    <p class="product-description">
-      Built specifically for aviation environments with enhanced
-      aircraft contrast, non-polarized optics, and a cockpit-focused
-      gradient lens design.
-    </p>
-
-    <div class="product-features">
-
-      <div class="product-feature">
-        ✈️ Enhanced traffic visibility
-      </div>
-
-      <div class="product-feature">
-        ☀️ Dark upper glare protection
-      </div>
-
-      <div class="product-feature">
-        📟 Clear avionics readability
-      </div>
-
-      <div class="product-feature">
-        🛡️ Aviation-safe non-polarized lenses
-      </div>
-
-    </div>
-
-    <div class="product-price">
-      $149
-    </div>
-
-    <a href="/products" class="buy-button">
-      Shop Sunglasses
+  <div class="footer-links">
+    <a href="https://wildcrowd.com">
+      WildCrowd
     </a>
-
   </div>
 
-</section>
+</footer>
+
 </BaseLayout>
 
 <style>
 
-  /* LIGHT MODE */
+:root {
+  --blue: #2563eb;
+}
 
-  :root {
-    --bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    --surface: #ffffff;
-    --text: #111827;
-    --muted: #374151;
-    --accent: #2563eb;
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    --card-bg: rgba(255, 255, 255, 0.85);
-  }
+/* PAGE */
 
-  /* DARK MODE */
-
-  [data-theme="dark"] {
-    --bg: linear-gradient(135deg, #050b14 0%, #0f172a 100%);
-    --surface: #111827;
-    --text: #ffffff;
-    --muted: #94a3b8;
-    --accent: #3b82f6;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    --card-bg: rgba(15, 23, 42, 0.9);
-  }
-
-  /* BODY */
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-
-  /* HERO SECTION */
-
-  .hero {
-    min-height: 92vh;
-    display: flex;
-    align-items: center;
-    padding: 5rem 1.5rem;
-  }
-
-  .hero-content {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  .hero-label {
-    text-transform: uppercase;
-    letter-spacing: 0.35em;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    font-size: 0.85rem;
-  }
-
-  .hero h1 {
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.92;
-    margin-bottom: 2rem;
-    font-weight: 900;
-  }
-
-  .hero-description {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    max-width: 600px;
-    color: var(--muted);
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .primary-btn,
-  .secondary-btn {
-    padding: 1rem 2rem;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  .primary-btn {
-    background: var(--accent);
-    color: white;
-  }
-
-  .primary-btn:hover {
-    transform: translateY(-2px);
-  }
-
-  .secondary-btn {
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--text);
-  }
-
-  .secondary-btn:hover {
-    border-color: var(--accent);
-  }
-
-  /* HERO IMAGE */
-
-  .hero-image {
-    position: relative;
-  }
-
-  .hero-image img {
-    width: 100%;
-    border-radius: 28px;
-    box-shadow: var(--shadow);
-    object-fit: cover;
-  }
-
-  /* FLOATING CARD */
-
-  .floating-card {
-    position: absolute;
-    bottom: -30px;
-    left: -30px;
-    background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    padding: 2rem;
-    border-radius: 22px;
-    max-width: 320px;
-    box-shadow: var(--shadow);
-  }
-
-  .floating-label {
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .floating-card h3 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-
-  .floating-card p {
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* FEATURE GRID */
-
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1300px;
-    margin: 6rem auto;
-    padding: 0 1.5rem;
-  }
-
-  .card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-    text-align: center;
-    color: var(--text);
-    text-decoration: none;
-    transition: transform 0.3s ease;
-  }
-
-  .card:hover {
-    transform: translateY(-6px);
-  }
-
-  .card img {
-    width: 120px;
-    margin-bottom: 1.5rem;
-  }
-
-  .card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .card p {
-    line-height: 1.7;
-    color: var(--muted);
-  }
-
-  /* MOBILE */
-
-  @media (max-width: 900px) {
-
-    .hero-content {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-
-    .hero {
-      padding-top: 3rem;
-    }
-
-    .floating-card {
-      position: relative;
-      left: 0;
-      bottom: 0;
-      margin-top: 1.5rem;
-      max-width: 100%;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-    }
-
-  }
-.features-section {
-  background: #050505;
+body {
+  background: #000;
   color: white;
-  padding: 6rem 8%;
+  margin: 0;
+  font-family: Inter, sans-serif;
 }
 
-.features-header {
-  max-width: 800px;
-  margin-bottom: 4rem;
-}
+/* HERO */
 
-.features-eyebrow {
-  color: #3b82f6;
-  letter-spacing: 5px;
-  font-size: 0.8rem;
-  margin-bottom: 1rem;
-}
+.hero {
+  position: relative;
 
-.features-header h2 {
-  font-size: clamp(3rem, 6vw, 5rem);
-  line-height: 0.95;
-  margin-bottom: 1.5rem;
-}
+  min-height: 100vh;
 
-.features-intro {
-  color: #94a3b8;
-  font-size: 1.2rem;
-  line-height: 1.8;
-  max-width: 700px;
-}
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.25),
+      rgba(0,0,0,0.55)
+    ),
+    url('/cockpit-hero.JPEG');
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2rem;
-}
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-.feature-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 24px;
-  padding: 2rem;
-  transition: 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.feature-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(59,130,246,0.5);
-}
-
-.feature-icon {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.feature-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-}
-
-.feature-card p {
-  color: #94a3b8;
-  line-height: 1.7;
-}
-
-@media (max-width: 768px) {
-
-  .features-section {
-    padding: 4rem 6%;
-  }
-
-  .features-header h2 {
-    font-size: 3rem;
-  }
-
-}
-.product-section {
-  background: #0a0a0a;
-  color: white;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-
+  display: flex;
   align-items: center;
-
-  padding: 7rem 8%;
 }
 
-.product-image img {
+.hero-overlay {
   width: 100%;
-  border-radius: 28px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+  padding: 8%;
 }
 
-.product-content {
+.hero-content {
   max-width: 650px;
 }
 
-.product-eyebrow {
-  color: #3b82f6;
-  letter-spacing: 5px;
-  font-size: 0.8rem;
+.hero-eyebrow {
+  color: #60a5fa;
+  letter-spacing: 4px;
+  font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
-.product-content h2 {
-  font-size: clamp(3rem, 5vw, 5rem);
-  line-height: 0.95;
+.hero h1 {
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 0.9;
   margin-bottom: 2rem;
 }
 
-.product-description {
-  color: #94a3b8;
-  font-size: 1.2rem;
-  line-height: 1.9;
+.hero-text {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: #d1d5db;
+
   margin-bottom: 2.5rem;
+
+  max-width: 600px;
 }
 
-.product-features {
-  display: grid;
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-
-.product-feature {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-
-  padding: 1rem 1.2rem;
-
-  border-radius: 14px;
-
-  font-size: 1rem;
-}
-
-.product-price {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-}
-
-.buy-button {
+.hero-button {
   display: inline-block;
 
-  background: #2563eb;
+  background: var(--blue);
   color: white;
 
-  padding: 1.2rem 2.5rem;
+  padding: 1.2rem 2.4rem;
 
   border-radius: 999px;
 
@@ -610,21 +161,93 @@ import ComparisonSlider from '../components/ComparisonSlider.astro';
   transition: 0.3s ease;
 }
 
-.buy-button:hover {
+.hero-button:hover {
   background: #1d4ed8;
   transform: translateY(-3px);
 }
 
-@media (max-width: 980px) {
+/* FEATURE STRIP */
 
-  .product-section {
-    grid-template-columns: 1fr;
-    padding: 5rem 6%;
+.feature-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 1px;
+
+  background: rgba(255,255,255,0.08);
+}
+
+.feature-item {
+  padding: 2rem;
+
+  background: #050505;
+
+  text-align: center;
+
+  font-size: 1rem;
+  color: #e5e7eb;
+}
+
+/* FOOTER */
+
+.footer {
+  padding: 2rem 8%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: 1px solid rgba(255,255,255,0.08);
+
+  background: #050505;
+}
+
+.footer-links a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+  .hero {
+    min-height: 85vh;
+    background-position: 72% center;
   }
 
-  .product-content h2 {
-    font-size: 3rem;
+  .hero-overlay {
+    padding: 20% 8%;
+  }
+
+  .hero h1 {
+    font-size: 4.5rem;
+  }
+
+  .hero-text {
+    font-size: 1.1rem;
+  }
+
+  .feature-strip {
+    grid-template-columns: 1fr 1fr;
   }
 
 }
+
+@media (max-width: 640px) {
+
+  .hero {
+    background-position: 74% center;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .feature-strip {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 </style>
