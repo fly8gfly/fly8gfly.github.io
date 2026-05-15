@@ -9,30 +9,7 @@ import ComparisonSlider from '../components/ComparisonSlider.astro';
 
   <div class="hero-overlay">
 
-    <div class="hero-content">
-
-      <p class="hero-eyebrow">
-        FLY8G PILOT SUNGLASSES
-      </p>
-
-      <h1>
-        SEE CLEARER.<br />
-        FLY SAFER.
-      </h1>
-
-      <p class="hero-text">
-        Purpose-built aviation sunglasses engineered
-        for real cockpit conditions.
-      </p>
-
-      <a
-        href="https://wildcrowd.com"
-        class="hero-button"
-      >
-        Shop Fly8G At WildCrowd
-      </a>
-
-    </div>
+    <div class="hero-content"></div>
 
   </div>
 
@@ -78,12 +55,6 @@ import ComparisonSlider from '../components/ComparisonSlider.astro';
 
 <style>
 
-:root {
-  --blue: #2563eb;
-}
-
-/* PAGE */
-
 body {
   background: #000;
   color: white;
@@ -98,14 +69,7 @@ body {
 
   min-height: 100vh;
 
-  background-image:
-    linear-gradient(
-      to right,
-      rgba(0,0,0,0.78) 0%,
-      rgba(0,0,0,0.45) 42%,
-      rgba(0,0,0,0.18) 100%
-    ),
-    url('/cockpit-hero.JPEG');
+  background-image: url('/cockpit-hero.JPEG');
 
   background-size: cover;
   background-position: center;
@@ -113,72 +77,6 @@ body {
 
   display: flex;
   align-items: center;
-}
-
-.hero-overlay {
-  width: 100%;
-  padding: 8%;
-}
-
-.hero-content {
-  max-width: 520px;
-  padding-top: 4rem;
-}
-
-.hero-eyebrow {
-  color: #60a5fa;
-
-  letter-spacing: 4px;
-
-  font-size: 0.9rem;
-
-  margin-bottom: 1rem;
-}
-
-.hero h1 {
-  font-size: clamp(3rem, 7vw, 6rem);
-
-  line-height: 0.92;
-
-  margin-bottom: 2rem;
-
-  max-width: 700px;
-
-  letter-spacing: -2px;
-}
-
-.hero-text {
-  font-size: 1.2rem;
-
-  line-height: 1.8;
-
-  color: #d1d5db;
-
-  margin-bottom: 2.5rem;
-
-  max-width: 500px;
-}
-
-.hero-button {
-  display: inline-block;
-
-  background: var(--blue);
-  color: white;
-
-  padding: 1.1rem 2.2rem;
-
-  border-radius: 999px;
-
-  text-decoration: none;
-
-  font-weight: 700;
-
-  transition: 0.3s ease;
-}
-
-.hero-button:hover {
-  background: #1d4ed8;
-  transform: translateY(-3px);
 }
 
 /* FEATURE STRIP */
@@ -231,15 +129,7 @@ body {
   .hero {
     min-height: 88vh;
 
-    background-position: 68% center;
-  }
-
-  .hero-overlay {
-    padding: 14% 8%;
-  }
-
-  .hero-content {
-    max-width: 450px;
+    background-position: center;
   }
 
   .feature-strip {
@@ -253,21 +143,9 @@ body {
 @media (max-width: 640px) {
 
   .hero {
-    min-height: 82vh;
+    min-height: 70vh;
 
-    background-position: 74% center;
-  }
-
-  .hero-overlay {
-    padding: 22% 8%;
-  }
-
-  .hero h1 {
-    font-size: 3.6rem;
-  }
-
-  .hero-text {
-    font-size: 1rem;
+    background-position: center;
   }
 
   .feature-strip {
