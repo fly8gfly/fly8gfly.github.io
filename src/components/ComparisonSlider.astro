@@ -1,4 +1,5 @@
 <section class="comparison-section">
+
   <div class="comparison-container" id="comparison-container">
 
     <!-- BASE IMAGE -->
@@ -8,7 +9,7 @@
       class="base-image"
     />
 
-    <!-- OVERLAY -->
+    <!-- OVERLAY IMAGE -->
     <div class="overlay" id="overlay">
 
       <img
@@ -34,9 +35,11 @@
     </div>
 
   </div>
+
 </section>
 
 <script is:inline>
+
   const container = document.getElementById('comparison-container');
   const overlay = document.getElementById('overlay');
   const slider = document.getElementById('slider');
@@ -81,6 +84,7 @@
     if (!isDragging) return;
     moveSlider(e.touches[0].clientX);
   });
+
 </script>
 
 <style>
@@ -97,6 +101,10 @@
   margin: auto;
   overflow: hidden;
   border-radius: 22px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.45);
+
+  /* IMPORTANT FIX */
+  container-type: inline-size;
 }
 
 /* BASE IMAGE */
@@ -104,6 +112,8 @@
 .base-image {
   width: 100%;
   display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* OVERLAY */
@@ -123,10 +133,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  max-width: 1400px;
+
+  width: 100cqw;
   height: auto;
+
+  max-width: none;
   display: block;
+
+  user-select: none;
+  pointer-events: none;
 }
 
 /* SLIDER */
@@ -137,21 +152,28 @@
   left: 50%;
   width: 4px;
   height: 100%;
-  background: white;
+  background: rgba(255,255,255,0.95);
   transform: translateX(-50%);
-  z-index: 20;
   cursor: ew-resize;
+  z-index: 20;
 }
+
+/* CENTER BUTTON */
 
 .slider-button {
   position: absolute;
   top: 50%;
   left: 50%;
+
   width: 64px;
   height: 64px;
-  border-radius: 50%;
+
   background: white;
+  border-radius: 50%;
+
   transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 35px rgba(0,0,0,0.45);
 }
 
 /* LABELS */
@@ -160,8 +182,11 @@
   position: absolute;
   top: 20px;
   z-index: 30;
+
   padding: 10px 16px;
+
   border-radius: 999px;
+
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -169,14 +194,34 @@
 
 .left-label {
   left: 20px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.72);
   color: white;
 }
 
 .right-label {
   right: 20px;
-  background: #2563eb;
+  background: rgba(37,99,235,0.92);
   color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .comparison-section {
+    padding: 3rem 0;
+  }
+
+  .slider-button {
+    width: 52px;
+    height: 52px;
+  }
+
+  .label {
+    font-size: 0.65rem;
+    padding: 8px 14px;
+  }
+
 }
 
 </style>
