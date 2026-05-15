@@ -31,6 +31,7 @@ const { title = "FLY8G" } = Astro.props;
 
     html,
     body {
+
       width: 100%;
       overflow-x: hidden;
 
@@ -49,14 +50,61 @@ const { title = "FLY8G" } = Astro.props;
       min-height: 100vh;
     }
 
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
     }
 
-    img {
-      max-width: 100%;
-      display: block;
+    /* HEADER */
+
+    header {
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 2rem;
+
+      z-index: 1000;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.72),
+          rgba(0,0,0,0)
+        );
+
+      backdrop-filter: blur(6px);
+    }
+
+    .logo img {
+
+      height: 52px;
+      width: auto;
+
+      object-fit: contain;
+    }
+
+    /* MAIN */
+
+    main {
+
+      width: 100%;
+      overflow: hidden;
     }
 
   </style>
@@ -65,7 +113,26 @@ const { title = "FLY8G" } = Astro.props;
 
 <body>
 
-  <slot />
+  <header>
+
+    <a
+      href="/"
+      class="logo"
+      aria-label="FLY8G Home"
+    >
+      <img
+        src="/logo.jpg"
+        alt="FLY8G Logo"
+      />
+    </a>
+
+  </header>
+
+  <main>
+
+    <slot />
+
+  </main>
 
 </body>
 
