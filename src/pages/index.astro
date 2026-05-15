@@ -55,82 +55,48 @@ import ComparisonSlider from '../components/ComparisonSlider.astro';
 
 <style>
 
-body {
-  background: #000;
-  color: white;
-  margin: 0;
-  font-family: Inter, sans-serif;
-}
-
-/* HERO */
-
-.hero {
-  position: relative;
-
-  min-height: 100vh;
-
-  background-image: url('/cockpit-hero.JPEG');
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  display: flex;
-  align-items: center;
-}
-
-/* FEATURE STRIP */
-
 .feature-strip {
+
   display: grid;
 
   grid-template-columns: repeat(4, 1fr);
 
-  gap: 1px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 
-  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.01)
+    );
+
+  backdrop-filter: blur(10px);
 }
 
 .feature-item {
-  padding: 1.5rem;
 
-  background: #050505;
+  padding: 1.6rem 1rem;
 
   text-align: center;
 
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 
-  color: #e5e7eb;
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.82);
+
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
 
-/* FOOTER */
-
-.footer {
-  padding: 2rem 8%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  border-top: 1px solid rgba(255,255,255,0.08);
-
-  background: #050505;
+.feature-item:last-child {
+  border-right: none;
 }
-
-.footer-links a {
-  color: #9ca3af;
-  text-decoration: none;
-}
-
-/* TABLET */
 
 @media (max-width: 900px) {
-
-  .hero {
-    min-height: 88vh;
-
-    background-position: center;
-  }
 
   .feature-strip {
     grid-template-columns: 1fr 1fr;
@@ -138,30 +104,18 @@ body {
 
 }
 
-/* MOBILE */
-
 @media (max-width: 640px) {
-
-  .hero {
-    min-height: 70vh;
-
-    background-position: center;
-  }
 
   .feature-strip {
     grid-template-columns: 1fr;
   }
 
   .feature-item {
-    padding: 1.2rem;
-    font-size: 0.9rem;
-  }
+    border-right: none;
 
-  .footer {
-    flex-direction: column;
-    gap: 1rem;
+    border-bottom:
+      1px solid rgba(255,255,255,0.06);
   }
 
 }
-
 </style>
